@@ -12,6 +12,10 @@
   --color-kieks-aqua-100: var(--kieks-aqua-100);
   --color-kieks-aqua-200: var(--kieks-aqua-200);
   --color-kieks-aqua-300: var(--kieks-aqua-300);
+
+  /* Hausschrift + body (Google Fonts, SIL OFL 1.1) */
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -25,6 +29,27 @@ html.dark {
 }
 
 @layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+
+  nav,
+  label,
+  legend,
+  button,
+  [role='button'] {
+    font-family: var(--font-heading);
+  }
+
   button:not(:disabled) {
     cursor: pointer;
   }
