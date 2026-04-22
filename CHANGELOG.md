@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/kieksme/skills/compare/1.1.0...1.2.0) (2026-04-22)
+
+
+### Features
+
+* **SiteNavbar.astro:** implement light and dark mode logos for improved visual consistency and branding ([536f597](https://github.com/kieksme/skills/commit/536f5971017bb0ee7cc5b66d1d16718bfd405fbb))
+
+
+### Documentation
+
+* **AGENTS.md:** add information about navbar logos and their source for better clarity on asset management ([536f597](https://github.com/kieksme/skills/commit/536f5971017bb0ee7cc5b66d1d16718bfd405fbb))
+
 ## [1.1.0](https://github.com/kieksme/skills/compare/1.0.0...1.1.0) (2026-04-22)
 
 
