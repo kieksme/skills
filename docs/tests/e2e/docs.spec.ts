@@ -78,6 +78,47 @@ test('agent-md generator updates preview and copy button works', async ({ page }
   await expect(copyButton).toContainText('Copied!');
 });
 
+test('skill creator chat and zip flow works with mocked API', async ({ page }) => {
+  await page.route('**/api/skill-creator/chat', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        message: 'Great scope. I will generate SKILL.md and metadata.json in finalize mode.'
+      })
+    });
+  });
+
+  await page.route('**/api/skill-creator/finalize', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        skillFolderName: 'playwright-ci-triage',
+        files: {
+          'SKILL.md': '---\nname: playwright-ci-triage\ndescription: Diagnose flaky tests\n---\n# Playwright CI Triage',
+          'metadata.json':
+            '{"title":"Playwright CI Triage","description":"Diagnose flaky CI tests","purpose":"Use when CI tests are flaky.","tags":["playwright","ci"],"source":"https://example.com","version":"1.0.0"}'
+        }
+      })
+    });
+  });
+
+  await page.goto('/skills/skill-creator/');
+
+  await page.fill('#chat-input', 'Create a skill for flaky Playwright CI failures.');
+  await page.click('#chat-send');
+
+  await expect(page.locator('#chat-messages')).toContainText('Great scope');
+  await expect(page.locator('#chat-status')).toContainText('Reply ready');
+
+  await page.click('#chat-finalize');
+  await expect(page.locator('#chat-status')).toContainText('ZIP is ready');
+  await expect(page.locator('#download-link')).toBeVisible();
+  await expect(page.locator('#download-link')).toHaveAttribute('download', 'playwright-ci-triage.zip');
+  await expect(page.locator('#package-preview')).toContainText('playwright-ci-triage');
+});
+
 test('theme toggle applies dark class manually', async ({ page }) => {
   await page.goto('/skills/');
 

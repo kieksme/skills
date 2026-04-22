@@ -5,7 +5,8 @@ const baseUrl = import.meta.env.BASE_URL;
 const currentPath = Astro.url.pathname;
 const navItems = [
   { href: baseUrl, label: 'Skills' },
-  { href: `${baseUrl}agent-md-generator/`, label: 'AGENTS.md' }
+  { href: `${baseUrl}agent-md-generator/`, label: 'AGENTS.md' },
+  { href: `${baseUrl}skill-creator/`, label: 'Skill Creator' }
 ];
 
 const isActive = (href: string) => currentPath === href;

@@ -1,0 +1,187 @@
+---
+import ToolPageTemplate from '../components/templates/ToolPageTemplate.astro';
+
+const baseUrl = (import.meta as ImportMeta & { env: { BASE_URL: string } }).env.BASE_URL;
+---
+
+<ToolPageTemplate
+  title="Skill Creator | kieks.me GbR Skills"
+  description="Create skill files with a chat-like workflow and download them as ZIP."
+  heading="Skill Creator"
+  subtitle="Describe what your skill should do, refine via chat, then export a ready-to-use ZIP package."
+  baseUrl={baseUrl}
+  canonicalUrl={`${baseUrl}skill-creator/`}
+  ogImage={`${baseUrl}og/default.png`}
+>
+  <section id="skill-creator-root" data-base-url={baseUrl} class="grid grid-cols-1 gap-4 lg:grid-cols-[1.2fr,0.8fr]">
+    <article class="rounded-xs border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+      <h2 class="mb-2 text-2xl font-semibold text-slate-900 dark:text-slate-200">Chat</h2>
+      <p class="text-sm text-slate-500 dark:text-slate-400">
+        Start with your intent, for example: domain, trigger conditions, required output files, and constraints.
+      </p>
+
+      <div id="chat-messages" class="mt-4 flex min-h-[320px] flex-col gap-3 rounded-xs border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800" aria-live="polite"></div>
+
+      <label class="mb-1 mt-4 block text-sm font-semibold text-slate-700 dark:text-slate-400" for="chat-input">Message</label>
+      <textarea
+        id="chat-input"
+        class="min-h-[120px] w-full resize-y rounded-xs border border-slate-200 bg-white p-3 text-sm text-slate-800 outline-none transition focus:border-kieks-aqua focus:ring-4 focus:ring-kieks-aqua/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:focus:border-kieks-aqua dark:focus:ring-kieks-navy/40"
+        placeholder="Build a skill for diagnosing flaky Playwright tests in CI. It should include triage steps and retry guidance."
+      ></textarea>
+
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="chat-send" class="inline-flex min-h-11 items-center justify-center rounded-xs border border-transparent bg-slate-900 px-4 py-2 text-sm font-semibold text-white dark:bg-kieks-fuchsia">Send</button>
+        <button id="chat-finalize" class="inline-flex min-h-11 items-center justify-center rounded-xs border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800" disabled>Create ZIP</button>
+      </div>
+      <p id="chat-status" class="mt-3 text-sm text-slate-500 dark:text-slate-400">No messages yet.</p>
+    </article>
+
+    <article class="rounded-xs border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
+      <h2 class="mb-2 text-2xl font-semibold text-slate-900 dark:text-slate-200">Package Preview</h2>
+      <p class="text-sm text-slate-500 dark:text-slate-400">
+        The finalized response must include `SKILL.md` and `metadata.json`. ZIP is generated in the browser.
+      </p>
+      <pre id="package-preview" class="mt-4 min-h-[320px] overflow-auto rounded-xs border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"></pre>
+      <a id="download-link" class="mt-4 hidden min-h-11 items-center justify-center rounded-xs border border-transparent bg-kieks-aqua px-4 py-2 text-sm font-semibold text-kieks-navy" download>Download ZIP</a>
+    </article>
+  </section>
+</ToolPageTemplate>
+
+<script>
+  import JSZip from 'jszip';
+
+  interface ChatMessage {
+    role: 'user' | 'assistant';
+    content: string;
+  }
+
+  interface FinalizePayload {
+    skillFolderName: string;
+    files: Record<string, string>;
+  }
+
+  const root = document.getElementById('skill-creator-root');
+  const baseUrl = root?.getAttribute('data-base-url') ?? '/';
+  const chatBox = document.getElementById('chat-messages');
+  const input = document.getElementById('chat-input') as HTMLTextAreaElement | null;
+  const sendButton = document.getElementById('chat-send') as HTMLButtonElement | null;
+  const finalizeButton = document.getElementById('chat-finalize') as HTMLButtonElement | null;
+  const status = document.getElementById('chat-status');
+  const packagePreview = document.getElementById('package-preview');
+  const downloadLink = document.getElementById('download-link') as HTMLAnchorElement | null;
+
+  const messages: ChatMessage[] = [];
+
+  const escapeHtml = (value: string) =>
+    value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+
+  function renderMessages() {
+    if (!chatBox) return;
+    if (messages.length === 0) {
+      chatBox.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">Say hi and describe your skill goals.</p>';
+      return;
+    }
+    chatBox.innerHTML = messages
+      .map((message) => {
+        const bubbleClass =
+          message.role === 'user'
+            ? 'ml-auto border-kieks-aqua/30 bg-kieks-aqua-50 text-kieks-navy dark:bg-kieks-navy/50 dark:text-kieks-aqua'
+            : 'mr-auto border-slate-200 bg-white text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200';
+        const roleLabel = message.role === 'user' ? 'You' : 'Assistant';
+        return `<article class="max-w-[92%] rounded-xs border p-3 ${bubbleClass}">
+          <p class="mb-1 text-xs font-semibold uppercase tracking-wide opacity-70">${roleLabel}</p>
+          <p class="whitespace-pre-wrap text-sm">${escapeHtml(message.content)}</p>
+        </article>`;
+      })
+      .join('');
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function setBusy(isBusy: boolean) {
+    if (!sendButton || !input || !finalizeButton) return;
+    sendButton.disabled = isBusy;
+    input.disabled = isBusy;
+    finalizeButton.disabled = isBusy || messages.length === 0;
+  }
+
+  async function requestJson<T>(path: string, payload: unknown): Promise<T> {
+    const response = await fetch(`${baseUrl}${path}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.error ?? `Request failed with status ${response.status}`);
+    }
+    return data as T;
+  }
+
+  async function sendMessage() {
+    if (!input || !status) return;
+    const userText = input.value.trim();
+    if (!userText) return;
+
+    messages.push({ role: 'user', content: userText });
+    input.value = '';
+    renderMessages();
+    setBusy(true);
+    status.textContent = 'Generating assistant response...';
+    try {
+      const payload = { messages };
+      const data = await requestJson<{ message?: string }>('api/skill-creator/chat', payload);
+      messages.push({ role: 'assistant', content: String(data.message ?? '') });
+      renderMessages();
+      status.textContent = 'Reply ready. Continue chatting or create ZIP.';
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : 'Unknown error during chat request.';
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function finalizePackage() {
+    if (!status || !packagePreview || !downloadLink) return;
+    if (messages.length === 0) return;
+    setBusy(true);
+    status.textContent = 'Creating package files...';
+    try {
+      const data = await requestJson<FinalizePayload>('api/skill-creator/finalize', { messages });
+      const folder = String(data.skillFolderName ?? 'generated-skill');
+      const files = data.files ?? {};
+      packagePreview.textContent = JSON.stringify(data, null, 2);
+
+      const zip = new JSZip();
+      for (const [relativePath, content] of Object.entries(files)) {
+        zip.file(`${folder}/${relativePath}`, String(content));
+      }
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      downloadLink.href = url;
+      downloadLink.download = `${folder}.zip`;
+      downloadLink.classList.remove('hidden');
+      downloadLink.classList.add('inline-flex');
+      status.textContent = 'ZIP is ready.';
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : 'Unknown error while creating ZIP.';
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  renderMessages();
+  setBusy(false);
+  sendButton?.addEventListener('click', () => {
+    void sendMessage();
+  });
+  input?.addEventListener('keydown', (event) => {
+    if (!(event instanceof KeyboardEvent)) return;
+    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+      event.preventDefault();
+      void sendMessage();
+    }
+  });
+  finalizeButton?.addEventListener('click', () => {
+    void finalizePackage();
+  });
+</script>
