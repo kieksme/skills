@@ -26,16 +26,16 @@ jobs:
 
       - name: Clone wiki repository
         run: |
-          rm -rf /tmp/tp-skills-wiki
-          git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/kieksmeRepo/tp-skills.wiki.git" /tmp/tp-skills-wiki
+          rm -rf /tmp/skills-wiki
+          git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/kieksmeRepo/tp-skills.wiki.git" /tmp/skills-wiki
 
       - name: Sync wiki content
         run: |
-          rsync -av --delete wiki/ /tmp/tp-skills-wiki/
+          rsync -av --delete wiki/ /tmp/skills-wiki/
 
       - name: Commit and push changes
         run: |
-          cd /tmp/tp-skills-wiki
+          cd /tmp/skills-wiki
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
             git commit -m "docs: sync wiki from repository"
