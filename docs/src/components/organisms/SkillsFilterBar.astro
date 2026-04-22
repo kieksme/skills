@@ -21,7 +21,7 @@ const { scopes, totalCount, scopeCounts } = Astro.props;
 
 <div class="mb-4 flex flex-wrap gap-2" role="tablist" aria-label="Filter by scope">
   <button
-    class="filter-tab active inline-flex items-center gap-1.5 rounded-xs border border-sky-600 bg-sky-600 px-3 py-1.5 text-xs font-medium text-white"
+    class="filter-tab active inline-flex items-center gap-1.5 rounded-xs border border-kieks-navy bg-kieks-navy px-3 py-1.5 text-xs font-medium text-white"
     data-scope="all"
     role="tab"
     aria-selected="true"
@@ -30,18 +30,18 @@ const { scopes, totalCount, scopeCounts } = Astro.props;
   </button>
   {scopes.map((scope) => (
     <button
-      class="filter-tab inline-flex items-center gap-1.5 rounded-xs border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-sky-400 hover:bg-sky-50 hover:text-sky-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+      class="filter-tab inline-flex items-center gap-1.5 rounded-xs border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-kieks-aqua-300 hover:bg-kieks-aqua-50 hover:text-kieks-navy dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-200"
       data-scope={scope}
       role="tab"
       aria-selected="false"
     >
       {scope}
       {' '}
-      <span class="tab-count inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-sky-100 px-1 text-[11px] font-semibold text-sky-700 dark:bg-slate-700 dark:text-slate-200">{scopeCounts[scope] ?? 0}</span>
+      <span class="tab-count inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-kieks-aqua-100 px-1 text-[11px] font-semibold text-kieks-navy dark:bg-slate-700 dark:text-slate-200">{scopeCounts[scope] ?? 0}</span>
     </button>
   ))}
 </div>
 
 <p class="mb-5 text-sm text-slate-500 dark:text-slate-400">
-  Showing <strong id="visible-count" class="text-sky-700 dark:text-slate-200">{totalCount}</strong> skills
+  Showing <strong id="visible-count" class="text-kieks-navy dark:text-slate-200">{totalCount}</strong> skills
 </p>

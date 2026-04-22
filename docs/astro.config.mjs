@@ -17,8 +17,8 @@ export default defineConfig({
         start_url: '/skills/',
         scope: '/skills/',
         display: 'standalone',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
+        theme_color: '#1E2A45',
+        background_color: '#1E2A45',
         icons: [
           { src: '/skills/pwa-192x192.png', sizes: '192x192', type: 'image/png' },
           { src: '/skills/pwa-512x512.png', sizes: '512x512', type: 'image/png' },

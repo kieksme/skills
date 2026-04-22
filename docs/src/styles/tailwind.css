@@ -1,4 +1,19 @@
 @import "tailwindcss";
+@import "../../../brand/colors.css";
+
+@theme {
+  --color-kieks-aqua: var(--kieks-aqua);
+  --color-kieks-navy: var(--kieks-navy);
+  --color-kieks-fuchsia: var(--kieks-fuchsia);
+  --color-kieks-white: var(--kieks-white);
+  --color-kieks-dark-gray: var(--kieks-dark-gray);
+  --color-kieks-navy-deep: var(--kieks-navy-deep);
+  --color-kieks-aqua-50: var(--kieks-aqua-50);
+  --color-kieks-aqua-100: var(--kieks-aqua-100);
+  --color-kieks-aqua-200: var(--kieks-aqua-200);
+  --color-kieks-aqua-300: var(--kieks-aqua-300);
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 html {

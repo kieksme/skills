@@ -52,6 +52,7 @@ This document defines the guardrails for agent work in this repository.
 
 ## Docs-Site UI Architecture
 
+- Official brand tokens live in `brand/` (`colors.css`, `colors.json`, `tailwind.config.js`, `swatches/*.svg`). The docs app imports `brand/colors.css` from `docs/src/styles/tailwind.css` and exposes Tailwind v4 utilities as `kieks-*` (see `@theme` there).
 - For UI changes under `docs/src/`, use Atomic Design composition: `atoms -> molecules -> organisms -> templates -> pages`.
 - Do not duplicate page-local markup when an existing atom or molecule can be reused.
 - When adding or changing component props, update the related TypeScript prop definitions and the relevant docs text in the same change.
