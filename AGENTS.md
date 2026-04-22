@@ -54,6 +54,7 @@ This document defines the guardrails for agent work in this repository.
 
 - Official brand tokens live in `brand/` (`colors.css`, `colors.json`, `tailwind.config.js`, `swatches/*.svg`). The docs app imports `brand/colors.css` from `docs/src/styles/tailwind.css` and exposes Tailwind v4 utilities as `kieks-*` (see `@theme` there).
 - Typography: **Hanken Grotesk** (headings, nav, buttons) and **Source Sans 3** (body) load from Google Fonts in `docs/src/layouts/BaseLayout.astro`; `--font-heading` / `--font-sans` and optional self-host layout are documented in `brand/fonts/README.md`.
+- Navbar logos are vendored SVGs from [kieksme/kieks.me.brand](https://github.com/kieksme/kieks.me.brand) (`assets/logos/kieks.me-horizontal-aqua-light.svg` / `…-aqua-dark.svg`) under `docs/public/brand/`; refresh from `main` when the brand repo updates.
 - For UI changes under `docs/src/`, use Atomic Design composition: `atoms -> molecules -> organisms -> templates -> pages`.
 - Do not duplicate page-local markup when an existing atom or molecule can be reused.
 - When adding or changing component props, update the related TypeScript prop definitions and the relevant docs text in the same change.
