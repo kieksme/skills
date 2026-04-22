@@ -79,12 +79,47 @@ test('agent-md generator updates preview and copy button works', async ({ page }
 });
 
 test('skill creator chat and zip flow works with mocked API', async ({ page }) => {
+  let chatCallCount = 0;
   await page.route('**/api/skill-creator/chat', async (route) => {
+    chatCallCount += 1;
+    const body = route.request().postDataJSON() as {
+      messages?: Array<{ role?: string; content?: string }>;
+    };
+    const lastMessage = body.messages?.[body.messages.length - 1]?.content ?? '';
+
+    if (chatCallCount === 1) {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          message: 'Great scope. Please answer these to finalize requirements.',
+          questions: [
+            {
+              id: 'platform',
+              label: 'Which platform should this skill target?',
+              multiSelect: false,
+              options: ['React', 'Vanilla HTML', 'Vue']
+            },
+            {
+              id: 'fields',
+              label: 'Which form fields should be included?',
+              multiSelect: true,
+              options: ['Text input', 'Dropdown', 'Checkbox']
+            }
+          ]
+        })
+      });
+      return;
+    }
+
+    if (!lastMessage.includes('Clarifications:')) {
+      throw new Error(`Expected clarifications payload, got: ${lastMessage}`);
+    }
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify({
-        message: 'Great scope. I will generate SKILL.md and metadata.json in finalize mode.'
+        message: 'Perfect, clarifications received. You can now create the ZIP.'
       })
     });
   });
@@ -109,7 +144,14 @@ test('skill creator chat and zip flow works with mocked API', async ({ page }) =
   await page.fill('#chat-input', 'Create a skill for flaky Playwright CI failures.');
   await page.click('#chat-send');
 
-  await expect(page.locator('#chat-messages')).toContainText('Great scope');
+  await expect(page.locator('#chat-messages')).toContainText('Please answer these');
+  await expect(page.locator('#clarification-questions')).toBeVisible();
+  await page.getByRole('button', { name: 'React' }).click();
+  await page.getByRole('checkbox', { name: 'Text input' }).check();
+  await page.getByRole('checkbox', { name: 'Dropdown' }).check();
+  await page.getByRole('button', { name: 'Send selected answers' }).click();
+
+  await expect(page.locator('#chat-messages')).toContainText('clarifications received');
   await expect(page.locator('#chat-status')).toContainText('Reply ready');
 
   await page.click('#chat-finalize');
