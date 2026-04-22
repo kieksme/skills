@@ -91,10 +91,10 @@ const skillCatalog = skills.map((skill) => ({
 ---
 
 <ToolPageTemplate
-  title="AGENTS.md Generator | kieksme Skills"
-  description="Generate an AGENTS.md with kieksme skills and coding standards."
+  title="AGENTS.md Generator | kieks.me GbR Skills"
+  description="Generate an AGENTS.md with kieks.me GbR Skills and coding standards."
   heading="AGENTS.md Generator"
-  subtitle="Generate an AGENTS.md file that enforces kieksme skill installation by domain and includes coding standards your team can follow."
+  subtitle="Generate an AGENTS.md file that enforces kieks.me GbR Skill installation by domain and includes coding standards your team can follow."
   baseUrl={baseUrl}
   canonicalUrl={`${baseUrl}agent-md-generator/`}
   ogImage={`${baseUrl}og/default.png`}
@@ -103,7 +103,7 @@ const skillCatalog = skills.map((skill) => ({
       <article class="rounded-xs border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900">
         <h2 class="mb-2 text-2xl font-semibold text-slate-900 dark:text-slate-200">Generator Inputs</h2>
         <p class="text-sm text-slate-500 dark:text-slate-400">
-          Select the domains your team works on. The generated AGENTS.md will require installing the matching kieksme skills before execution.
+          Select the domains your team works on. The generated AGENTS.md will require installing the matching kieks.me GbR Skills before execution.
         </p>
 
         <label class="mb-1 mt-4 block text-sm font-semibold text-slate-700 dark:text-slate-400" for="project-name">Project name (optional)</label>
@@ -250,9 +250,9 @@ const skillCatalog = skills.map((skill) => ({
       return [
         '## Agent Skills (required)',
         '',
-        'Before starting work in any domain, install the matching kieksme skills from the catalog.',
+        'Before starting work in any domain, install the matching kieks.me GbR Skills from the catalog.',
         '',
-        `- Browse the catalog: [kieksme skills](${data.baseUrl})`,
+        `- Browse the catalog: [kieks.me GbR Skills](${data.baseUrl})`,
         '- Install at least the skills matching your requested task domain.',
         ''
       ].join('\n');
@@ -260,7 +260,7 @@ const skillCatalog = skills.map((skill) => ({
     const lines = [
       '## Agent Skills (required)',
       '',
-      'Before starting work in the selected domains, install the matching kieksme skills from the kieksme catalog.',
+      'Before starting work in the selected domains, install the matching kieks.me GbR Skills from the kieksme catalog.',
       ''
     ];
     for (const skill of skills) {

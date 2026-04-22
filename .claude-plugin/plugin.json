@@ -1,7 +1,7 @@
 {
   "name": "kieksme-agent-skills",
   "version": "1.0.0",
-  "description": "kieksme skill catalog for platform, frontend, data, and Terraform workflows.",
+  "description": "kieks.me GbR Skill catalog for platform, frontend, data, and Terraform workflows.",
   "author": {
     "name": "kieksme",
     "url": "https://github.com/kieksmeRepo"

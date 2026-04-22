@@ -39,7 +39,7 @@ describe('buildSkillsSection', () => {
   it('renders fallback section when no skills are selected', () => {
     const markdown = buildSkillsSection([], '/skills/');
     expect(markdown).toContain('Install at least the skills matching your requested task domain.');
-    expect(markdown).toContain('[kieksme skills](/skills/)');
+    expect(markdown).toContain('[kieks.me GbR Skills](/skills/)');
   });
 
   it('renders selected skills with docs links and install commands', () => {

@@ -1,6 +1,6 @@
 # Agent Skills
 
-Agent-Skill-Katalog für kieksme mit Astro Docs-Site und pnpm.
+Agent-Skill-Katalog der kieks.me GbR.
 
 ## Projektstruktur
 

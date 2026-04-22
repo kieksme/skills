@@ -1,6 +1,6 @@
-# kieksme Skills Wiki
+# kieks.me GbR Skills Wiki
 
-Willkommen im Wiki zu den kieksme Skills.
+Willkommen im Wiki zu den kieks.me GbR Skills.
 
 Hier findest du:
 

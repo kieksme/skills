@@ -1,4 +1,4 @@
-### kieksme Skills Wiki
+### kieks.me GbR Skills Wiki
 
 - [Startseite](Home)
 - [Skills verwenden](skills-verwenden)

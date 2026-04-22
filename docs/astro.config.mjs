@@ -11,7 +11,7 @@ export default defineConfig({
     AstroPWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'kieksme Skills',
+        name: 'kieks.me GbR Skills',
         short_name: 'TP Skills',
         description: 'Agent Skills catalog',
         start_url: '/skills/',

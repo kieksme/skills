@@ -35,9 +35,9 @@ export function buildSkillsSection(skills: SkillCatalogItem[], catalogUrl: strin
     return [
       '## Agent Skills (required)',
       '',
-      'Before starting work in any domain, install the matching kieksme skills from the catalog.',
+      'Before starting work in any domain, install the matching kieks.me GbR Skills from the catalog.',
       '',
-      `- Browse the catalog: [kieksme skills](${catalogUrl})`,
+      `- Browse the catalog: [kieks.me GbR Skills](${catalogUrl})`,
       '- Install at least the skills matching your requested task domain.',
       ''
     ].join('\n');
@@ -46,7 +46,7 @@ export function buildSkillsSection(skills: SkillCatalogItem[], catalogUrl: strin
   const lines = [
     '## Agent Skills (required)',
     '',
-    'Before starting work in the selected domains, install the matching kieksme skills from the kieksme catalog.',
+    'Before starting work in the selected domains, install the matching kieks.me GbR Skills from the kieksme catalog.',
     ''
   ];
 

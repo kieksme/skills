@@ -13,7 +13,7 @@ const bgColor = '#0f172a';
 const titleColor = '#f8fafc';
 const subtitleColor = '#cbd5e1';
 const accentColor = '#38bdf8';
-const subtitleText = 'kieksme Skill';
+const subtitleText = 'kieks.me GbR Skill';
 const iconColor = '#38bdf8';
 const iconSize = 92;
 const iconRasterSize = 512;
@@ -153,7 +153,7 @@ async function main() {
 
   await fs.mkdir(outputSkills, { recursive: true });
 
-  await renderOgImage(path.join(outputRoot, 'default.png'), 'kieksme Skills', getIconName('default'));
+  await renderOgImage(path.join(outputRoot, 'default.png'), 'kieks.me GbR Skills', getIconName('default'));
 
   for (const skill of skills) {
     const title = formatSkillLabel(skill.name);

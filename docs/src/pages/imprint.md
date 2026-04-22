@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/MarkdownPageLayout.astro
-title: Legal Notice | kieksme Skills
-description: Legal notice for the kieksme Skills documentation.
+title: Legal Notice | kieks.me GbR Skills
+description: Legal notice for the kieks.me GbR Skills documentation.
 heading: Legal Notice
 subtitle: Information according to Section 5 TMG and additional legal notices.
 ---
