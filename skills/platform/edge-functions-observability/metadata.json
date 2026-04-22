@@ -1,0 +1,8 @@
+{
+  "title": "Edge Functions Observability",
+  "description": "Observability-driven analysis for edge function latency and reliability incidents",
+  "purpose": "Use when edge functions experience latency or reliability incidents and observability data is needed to isolate causes.",
+  "tags": ["edge-functions", "observability", "latency", "incident-response"],
+  "source": "https://github.com/kieksmeRepo/skills/blob/main/skills/platform/edge-functions-observability/SKILL.md",
+  "version": "1.0.0"
+}

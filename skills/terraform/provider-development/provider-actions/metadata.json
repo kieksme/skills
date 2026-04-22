@@ -1,0 +1,8 @@
+{
+  "title": "Provider Actions",
+  "description": "Implement Terraform provider lifecycle actions with Plugin Framework schema, progress, and error handling patterns.",
+  "purpose": "Use when implementing Terraform provider lifecycle actions with robust state, progress, and error handling.",
+  "tags": ["terraform", "provider-development", "lifecycle", "plugin-framework"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/provider-development/skills/provider-actions/SKILL.md",
+  "version": "1.0.0"
+}

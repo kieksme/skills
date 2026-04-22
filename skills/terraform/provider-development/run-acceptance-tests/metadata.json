@@ -1,0 +1,8 @@
+{
+  "title": "Run Acceptance Tests",
+  "description": "Run and debug Terraform provider acceptance tests (TestAcc*) with progressive diagnostics.",
+  "purpose": "Use when running and debugging Terraform provider acceptance tests with iterative diagnostics.",
+  "tags": ["terraform", "provider-development", "acceptance-testing", "debugging"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/provider-development/skills/run-acceptance-tests/SKILL.md",
+  "version": "1.0.0"
+}

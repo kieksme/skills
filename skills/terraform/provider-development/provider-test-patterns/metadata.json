@@ -1,0 +1,8 @@
+{
+  "title": "Provider Test Patterns",
+  "description": "Apply proven acceptance-test patterns for Terraform providers using terraform-plugin-testing and Plugin Framework.",
+  "purpose": "Use when standardizing Terraform provider acceptance tests with proven patterns and tooling conventions.",
+  "tags": ["terraform", "provider-development", "test-patterns", "acceptance-testing"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/provider-development/skills/provider-test-patterns/SKILL.md",
+  "version": "1.0.0"
+}

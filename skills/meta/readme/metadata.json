@@ -1,0 +1,8 @@
+{
+  "title": "README Documentation",
+  "description": "Create and maintain clear README files with setup steps, usage guidance, and contributor onboarding.",
+  "purpose": "Use when creating or updating README documentation so project onboarding and usage are clear and reliable.",
+  "tags": ["readme", "documentation", "onboarding", "developer-experience"],
+  "source": "https://github.com/oimiragieo/agent-studio/tree/406628a513993fbc92c097db4a2b11522bdf8675/.claude/skills/readme",
+  "version": "1.1.0"
+}

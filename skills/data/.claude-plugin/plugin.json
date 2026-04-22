@@ -1,0 +1,19 @@
+{
+  "name": "kieksme-data-skills",
+  "version": "1.0.0",
+  "description": "Data skills for streaming pipeline stabilization, big data platform performance and cost optimization, and AI SDK tooling guardrails.",
+  "author": {
+    "name": "kieksme",
+    "url": "https://github.com/kieksmeRepo"
+  },
+  "homepage": "https://github.com/kieksmeRepo/skills/tree/main/skills/data",
+  "repository": "https://github.com/kieksmeRepo/tp-skills",
+  "license": "GPL-3.0",
+  "keywords": [
+    "data",
+    "ai",
+    "streaming",
+    "big-data",
+    "guardrails"
+  ]
+}

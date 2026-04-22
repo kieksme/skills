@@ -1,0 +1,8 @@
+{
+  "title": "Canvas Design",
+  "description": "Create visual design philosophies and express them as polished static canvas artifacts in PNG or PDF format.",
+  "purpose": "Use when producing polished visual artifacts in PNG or PDF from a clear design philosophy and composition brief.",
+  "tags": ["visual-design", "canvas", "png", "pdf"],
+  "source": "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md",
+  "version": "1.0.0"
+}

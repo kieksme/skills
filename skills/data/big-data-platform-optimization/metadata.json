@@ -1,0 +1,8 @@
+{
+  "title": "Big Data Platform Optimization",
+  "description": "Performance and cost optimization for big data platforms",
+  "purpose": "Use when a big data platform needs performance tuning and cost reduction without sacrificing reliability goals.",
+  "tags": ["big-data", "performance", "cost-optimization", "platform-engineering"],
+  "source": "https://github.com/kieksmeRepo/skills/blob/main/skills/data/big-data-platform-optimization/SKILL.md",
+  "version": "1.0.0"
+}

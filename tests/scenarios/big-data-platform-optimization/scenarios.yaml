@@ -1,0 +1,66 @@
+# Test scenarios for big-data-platform-optimization skill evaluation
+
+config:
+  model: gpt-4
+  max_tokens: 1500
+  temperature: 0.3
+
+scenarios:
+  - name: spark_runtime_regression
+    prompt: |
+      Nightly Spark ETL jobs increased from 90 minutes to 4 hours.
+      Provide a prioritized optimization plan with cost impact.
+    expected_patterns:
+      - "Shuffle"
+      - "Skew"
+      - "Quick Win"
+      - "Kosten"
+      - "Messkriterien"
+    forbidden_patterns: []
+    tags: [spark, optimization, cost]
+    mock_response: |
+      Prioritized analysis:
+      - main drivers are high Shuffle intensity and Data Skew.
+      Quick Win:
+      - improve partitioning and join strategy.
+      Cost:
+      - shorter runtime significantly lowers compute spend.
+      Metrics:
+      - stage duration, shuffle read/write, runtime per pipeline.
+
+  - name: databricks_cost_spike
+    prompt: |
+      Databricks compute cost is rising while SLA must remain stable.
+      Evaluate right-sizing, autoscaling, and spot/on-demand mix.
+    expected_patterns:
+      - "right-sizing"
+      - "autoscaling"
+      - "spot"
+      - "Trade-off"
+    forbidden_patterns: []
+    tags: [databricks, finops]
+    mock_response: |
+      FinOps recommendation:
+      - right-sizing clusters to real load profiles.
+      - autoscaling with strict min/max bounds.
+      - use spot for fault-tolerant workloads.
+      Trade-off:
+      - more spot lowers cost but can affect SLA stability.
+
+  - name: periodic_data_skew_analysis
+    prompt: |
+      Data Skew appears only at month-end. Provide an analysis that accounts for
+      seasonal load and Multi-Tenant noisy-neighbor effects.
+    expected_patterns:
+      - "seasonal"
+      - "Data Skew"
+      - "Multi-Tenant"
+      - "Fair Scheduling"
+    forbidden_patterns: []
+    tags: [skew, multi-tenant]
+    mock_response: |
+      Month-end analysis:
+      - load spikes are seasonal and amplify Data Skew.
+      - Multi-Tenant contention causes resource conflicts.
+      Actions:
+      - apply Fair Scheduling and tenant isolation for critical jobs.

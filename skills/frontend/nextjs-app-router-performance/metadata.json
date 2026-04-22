@@ -1,0 +1,8 @@
+{
+  "title": "Next.js App Router Performance",
+  "description": "Next.js App Router performance diagnostics and optimization planning",
+  "purpose": "Use when a Next.js App Router application has poor web-vitals and needs a focused performance diagnosis plan.",
+  "tags": ["nextjs", "app-router", "web-performance", "frontend"],
+  "source": "https://github.com/kieksmeRepo/skills/blob/main/skills/frontend/nextjs-app-router-performance/SKILL.md",
+  "version": "1.0.0"
+}

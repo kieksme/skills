@@ -1,0 +1,68 @@
+# Test scenarios for nextjs-app-router-performance skill evaluation
+
+config:
+  model: gpt-4
+  max_tokens: 1500
+  temperature: 0.3
+
+scenarios:
+  - name: app_router_ttfb_regression
+    prompt: |
+      After the last release, TTFB is significantly higher on critical routes.
+      Analyze rendering strategy and caching layers, then prioritize safe optimizations.
+    expected_patterns:
+      - "TTFB"
+      - "static"
+      - "dynamic"
+      - "ISR"
+      - "fetch cache"
+      - "route cache"
+    forbidden_patterns: []
+    tags: [nextjs, app-router, caching]
+    mock_response: |
+      App Router diagnosis:
+      - TTFB is elevated on dynamic routes.
+      - static and ISR potential is underused.
+      Caching:
+      - configure fetch cache consistently.
+      - enable route cache for stable segments.
+      Priority: apply safe cache optimizations before rendering splits.
+
+  - name: hidden_rerenders_and_overfetching
+    prompt: |
+      We see INP regressions caused by hidden Re-Renders and Overfetching.
+      Provide quick wins and long-term actions.
+    expected_patterns:
+      - "INP"
+      - "Re-Renders"
+      - "Overfetching"
+      - "deduplicated requests"
+      - "Quick Win"
+    forbidden_patterns: []
+    tags: [web-vitals, rendering]
+    mock_response: |
+      INP regression:
+      - hidden Re-Renders increase interaction latency.
+      - Overfetching triggers unnecessary network traffic.
+      Quick Win:
+      - add memoization and tighter component boundaries.
+      - use deduplicated requests through a centralized fetch layer.
+
+  - name: bundle_and_hydration_cost
+    prompt: |
+      Route transitions are slow and bundles are too large.
+      Provide a bundle and hydration cost analysis including segmentation.
+    expected_patterns:
+      - "Bundle"
+      - "Hydration"
+      - "Server Components"
+      - "Client Components"
+    forbidden_patterns: []
+    tags: [bundle, hydration]
+    mock_response: |
+      Performance evaluation:
+      - Bundle size slows route transitions.
+      - Hydration cost is too high for interactive islands.
+      Segmentation:
+      - use more Server Components for static sections.
+      - keep Client Components only where interaction is required.

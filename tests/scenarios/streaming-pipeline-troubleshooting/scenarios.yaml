@@ -1,0 +1,68 @@
+# Test scenarios for streaming-pipeline-troubleshooting skill evaluation
+
+config:
+  model: gpt-4
+  max_tokens: 1500
+  temperature: 0.3
+
+scenarios:
+  - name: kafka_consumer_lag_incident
+    prompt: |
+      Kafka consumer lag has risen sharply since the last release.
+      Analyze root cause, bottleneck, and safe immediate actions.
+    expected_patterns:
+      - "Consumer Lag"
+      - "Partition"
+      - "Bottleneck"
+      - "immediate action"
+      - "stabilization plan"
+    forbidden_patterns:
+      - "change directly in production"
+    tags: [kafka, incident, lag]
+    mock_response: |
+      Incident analysis:
+      - Consumer Lag increased across multiple partition groups.
+      - Likely bottleneck: slow downstream processing.
+      Immediate action:
+      - increase consumer parallelism and enable backpressure.
+      Stabilization plan:
+      - test partition rebalance, monitor offset lag, run canary rollout.
+
+  - name: duplicates_and_ordering_issues
+    prompt: |
+      A Kinesis pipeline shows duplicates and reordering without clear
+      broker errors. Provide a semantics-focused diagnosis and actions.
+    expected_patterns:
+      - "at most once"
+      - "at least once"
+      - "exactly once"
+      - "idempotent"
+      - "dedup"
+    forbidden_patterns: []
+    tags: [kinesis, duplicates, semantics]
+    mock_response: |
+      Semantics diagnosis:
+      - at most once reduces duplicates but increases loss risk.
+      - at least once is robust but requires idempotent processing.
+      - exactly once is expensive and often only partially achievable.
+      Actions:
+      - implement dedup via event keys and idempotent writes.
+
+  - name: hot_partition_detection
+    prompt: |
+      Only a few partitions are overloaded while the rest are stable.
+      Create a Hot Partitioning analysis and a small blast radius rollout plan.
+    expected_patterns:
+      - "Hot Partitioning"
+      - "Partition Keys"
+      - "Blast Radius"
+      - "reversibel"
+    forbidden_patterns: []
+    tags: [partitioning, reliability]
+    mock_response: |
+      Hot Partitioning detected:
+      - a few Partition Keys carry most of the load.
+      Plan:
+      - update key strategy and rebalance traffic.
+      - roll out changes with small Blast Radius.
+      - keep rollout reversible with feature flag and rollback.

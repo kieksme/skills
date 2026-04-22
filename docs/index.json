@@ -1,0 +1,126 @@
+{
+  "name": "kieksme-agent-skills",
+  "version": "1.12.0",
+  "skills": [
+    {
+      "name": "iac-infrastructure-as-code",
+      "path": "skills/platform/iac-infrastructure-as-code/SKILL.md",
+      "description": "IaC review for security, cost, and risk assessment"
+    },
+    {
+      "name": "streaming-pipeline-troubleshooting",
+      "path": "skills/data/streaming-pipeline-troubleshooting/SKILL.md",
+      "description": "Diagnosis and stabilization of streaming pipelines"
+    },
+    {
+      "name": "big-data-platform-optimization",
+      "path": "skills/data/big-data-platform-optimization/SKILL.md",
+      "description": "Performance and cost optimization for big data platforms"
+    },
+    {
+      "name": "nextjs-app-router-performance",
+      "path": "skills/frontend/nextjs-app-router-performance/SKILL.md",
+      "description": "Next.js App Router performance diagnostics and optimization planning"
+    },
+    {
+      "name": "edge-functions-observability",
+      "path": "skills/platform/edge-functions-observability/SKILL.md",
+      "description": "Observability-driven analysis for edge function latency and reliability incidents"
+    },
+    {
+      "name": "ai-sdk-tooling-integration",
+      "path": "skills/data/ai-sdk-tooling-integration/SKILL.md",
+      "description": "Production integration checks for AI SDK tools, streaming, and guardrails"
+    },
+    {
+      "name": "tailwind-design-system",
+      "path": "skills/frontend/tailwind-design-system/SKILL.md",
+      "description": "Build scalable design systems with Tailwind CSS v4, design tokens, and component patterns"
+    },
+    {
+      "name": "canvas-design",
+      "path": "skills/frontend/canvas-design/SKILL.md",
+      "description": "Create beautiful visual art in .png and .pdf documents using design philosophy."
+    },
+    {
+      "name": "skill-creator",
+      "path": "skills/meta/skill-creator/SKILL.md",
+      "description": "Guide for creating effective skills for AI coding agents working with Azure SDKs and Microsoft Foundry services. Use when creating new skills or updating existing skills."
+    },
+    {
+      "name": "skill-prompt-security-audit",
+      "path": "skills/meta/skill-prompt-security-audit/SKILL.md",
+      "description": "Audit SKILL.md files for adversarial prompt patterns, unsafe secret handling instructions, and security-relevant false positives."
+    },
+    {
+      "name": "readme",
+      "path": "skills/meta/readme/SKILL.md",
+      "description": "Use when creating, updating, or generating README and documentation files for projects and libraries."
+    },
+    {
+      "name": "content-analyzer",
+      "path": "skills/meta/content-analyzer/SKILL.md",
+      "description": "Use when analyzing published content for sentiment, readability, structure, topics, wording, and engagement correlation."
+    },
+    {
+      "name": "terraform-style-guide",
+      "path": "skills/terraform/code-generation/terraform-style-guide/SKILL.md",
+      "description": "Generate and review Terraform code using HashiCorp style conventions, structure, and security defaults."
+    },
+    {
+      "name": "terraform-test",
+      "path": "skills/terraform/code-generation/terraform-test/SKILL.md",
+      "description": "Write and run Terraform tests with .tftest.hcl files, run blocks, assertions, and mock-aware strategies."
+    },
+    {
+      "name": "azure-verified-modules",
+      "path": "skills/terraform/code-generation/azure-verified-modules/SKILL.md",
+      "description": "Apply Azure Verified Modules requirements for Terraform module quality, compatibility, and certification readiness."
+    },
+    {
+      "name": "terraform-search-import",
+      "path": "skills/terraform/code-generation/terraform-search-import/SKILL.md",
+      "description": "Discover existing cloud resources with Terraform Search and import them safely into managed Terraform state."
+    },
+    {
+      "name": "refactor-module",
+      "path": "skills/terraform/module-generation/refactor-module/SKILL.md",
+      "description": "Refactor monolithic Terraform into reusable modules with clear inputs, outputs, and migration safety."
+    },
+    {
+      "name": "terraform-stacks",
+      "path": "skills/terraform/module-generation/terraform-stacks/SKILL.md",
+      "description": "Build and operate Terraform Stacks across environments and regions using .tfcomponent.hcl and .tfdeploy.hcl."
+    },
+    {
+      "name": "new-terraform-provider",
+      "path": "skills/terraform/provider-development/new-terraform-provider/SKILL.md",
+      "description": "Scaffold a new Terraform provider with Plugin Framework and baseline build/test checks."
+    },
+    {
+      "name": "run-acceptance-tests",
+      "path": "skills/terraform/provider-development/run-acceptance-tests/SKILL.md",
+      "description": "Run and debug Terraform provider acceptance tests (TestAcc*) with progressive diagnostics."
+    },
+    {
+      "name": "provider-actions",
+      "path": "skills/terraform/provider-development/provider-actions/SKILL.md",
+      "description": "Implement Terraform provider lifecycle actions with Plugin Framework schema, progress, and error handling patterns."
+    },
+    {
+      "name": "provider-resources",
+      "path": "skills/terraform/provider-development/provider-resources/SKILL.md",
+      "description": "Build Terraform provider resources and data sources with clean schema, CRUD behavior, and acceptance tests."
+    },
+    {
+      "name": "provider-test-patterns",
+      "path": "skills/terraform/provider-development/provider-test-patterns/SKILL.md",
+      "description": "Apply proven acceptance-test patterns for Terraform providers using terraform-plugin-testing and Plugin Framework."
+    },
+    {
+      "name": "mcp-builder",
+      "path": "skills/platform/mcp-builder/SKILL.md",
+      "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools."
+    }
+  ]
+}

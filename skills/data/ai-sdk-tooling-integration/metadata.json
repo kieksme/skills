@@ -1,0 +1,8 @@
+{
+  "title": "AI SDK Tooling Integration",
+  "description": "Production integration checks for AI SDK tools, streaming, and guardrails",
+  "purpose": "Use when integrating AI SDK tooling into production systems with guardrails, streaming behavior, and operational checks.",
+  "tags": ["ai-sdk", "integration", "guardrails", "production-readiness"],
+  "source": "https://github.com/kieksmeRepo/skills/blob/main/skills/data/ai-sdk-tooling-integration/SKILL.md",
+  "version": "1.0.0"
+}

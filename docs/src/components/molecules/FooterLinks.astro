@@ -1,0 +1,57 @@
+---
+import { getCatalogVersion } from '../../lib/catalogVersion';
+
+interface LinkItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  prefix?: string;
+  links: LinkItem[];
+  /** When unset, `index.json` `version` is shown (release tag in published builds). */
+  catalogVersion?: string | null;
+  showCatalogVersion?: boolean;
+  footerClass?: string;
+  containerClass?: string;
+}
+
+const {
+  prefix,
+  links,
+  catalogVersion: catalogVersionProp,
+  showCatalogVersion = true,
+  footerClass = 'border-t border-slate-200 px-4 pb-8 pt-4 text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400',
+  containerClass = 'mx-auto max-w-6xl'
+} = Astro.props;
+
+const catalogVersion: string | null = !showCatalogVersion
+  ? null
+  : catalogVersionProp !== undefined
+    ? catalogVersionProp
+    : getCatalogVersion();
+---
+
+<footer class={footerClass}>
+  <div class={containerClass}>
+    {prefix && <>{prefix} · </>}
+    {links.map((link, idx) => (
+      <>
+        {idx > 0 && <> · </>}
+        <a href={link.href}>{link.label}</a>
+      </>
+    ))}
+    {catalogVersion && (
+      <>
+        {' '}
+        ·{' '}
+        <span
+          class="font-mono tabular-nums text-slate-400 dark:text-slate-500"
+          title="Catalog version (matches the published release git tag)"
+        >
+          {catalogVersion}
+        </span>
+      </>
+    )}
+  </div>
+</footer>

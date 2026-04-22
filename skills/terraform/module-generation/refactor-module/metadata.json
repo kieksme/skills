@@ -1,0 +1,8 @@
+{
+  "title": "Refactor Module",
+  "description": "Refactor monolithic Terraform into reusable modules with clear inputs, outputs, and migration safety.",
+  "purpose": "Use when splitting monolithic Terraform into reusable modules while preserving safe migration paths.",
+  "tags": ["terraform", "refactoring", "modules", "migration"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/module-generation/skills/refactor-module/SKILL.md",
+  "version": "1.0.0"
+}

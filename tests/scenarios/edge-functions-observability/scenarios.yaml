@@ -1,0 +1,66 @@
+# Test scenarios for edge-functions-observability skill evaluation
+
+config:
+  model: gpt-4
+  max_tokens: 1500
+  temperature: 0.3
+
+scenarios:
+  - name: regional_latency_spike
+    prompt: |
+      Edge functions have shown a doubled P99 latency since yesterday
+      in two regions. Analyze root cause, safe immediate mitigations, and next steps.
+    expected_patterns:
+      - "P99"
+      - "Region"
+      - "Traces"
+      - "Upstream"
+      - "Fallback"
+    forbidden_patterns: []
+    tags: [edge, latency, incident]
+    mock_response: |
+      Incident Summary:
+      - P99 increased in two Region clusters.
+      - Traces show wait time in an Upstream service.
+      Immediate mitigations:
+      - adjust regional routing and enable Fallback.
+      - tightly monitor error budget and recovery metrics.
+
+  - name: cold_start_regression
+    prompt: |
+      After a runtime update, Cold Start duration increases significantly under load.
+      Correlate logs, metrics, and configuration changes.
+    expected_patterns:
+      - "Cold Start"
+      - "Log Correlation"
+      - "Config Diff"
+      - "Blast Radius"
+    forbidden_patterns: []
+    tags: [cold-start, observability]
+    mock_response: |
+      Cold Start analysis:
+      - Cold Start duration correlates with runtime changes.
+      - Log Correlation confirms higher init duration.
+      - Config Diff shows changed memory/timeout values.
+      Rollout:
+      - keep Blast Radius small with canary deployment.
+
+  - name: retry_storm_timeout_masking
+    prompt: |
+      Timeouts and aggressive Retries create load spikes and mask the real
+      Downstream cause. Provide a stable rollback-first plan.
+    expected_patterns:
+      - "Timeout"
+      - "Retry"
+      - "Downstream"
+      - "rollback-first"
+      - "Circuit-Breaker"
+    forbidden_patterns: []
+    tags: [resilience, reliability]
+    mock_response: |
+      Stability plan:
+      - Timeout and aggressive Retry generate load spikes.
+      - root cause is Downstream, not the edge layer.
+      Approach:
+      - apply rollback-first to reduce pressure.
+      - harden Retry policy and enable Circuit-Breaker.

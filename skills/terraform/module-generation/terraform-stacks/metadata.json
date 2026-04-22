@@ -1,0 +1,8 @@
+{
+  "title": "Terraform Stacks",
+  "description": "Build and operate Terraform Stacks across environments and regions using .tfcomponent.hcl and .tfdeploy.hcl.",
+  "purpose": "Use when managing Terraform Stacks across multiple environments and regions with stack-native workflows.",
+  "tags": ["terraform", "stacks", "multi-environment", "operations"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/module-generation/skills/terraform-stacks/SKILL.md",
+  "version": "1.0.0"
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Streaming Pipeline Troubleshooting",
+  "description": "Diagnosis and stabilization of streaming pipelines",
+  "purpose": "Use when streaming data pipelines show lag, drops, or instability and you need structured diagnosis and recovery steps.",
+  "tags": ["streaming", "troubleshooting", "reliability", "data-pipelines"],
+  "source": "https://github.com/kieksmeRepo/skills/blob/main/skills/data/streaming-pipeline-troubleshooting/SKILL.md",
+  "version": "1.0.0"
+}

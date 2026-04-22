@@ -1,0 +1,8 @@
+{
+  "title": "Content Analyzer",
+  "description": "Analyze published content across sentiment, readability, structure, topics, wording, and engagement signals.",
+  "purpose": "Use when auditing content performance and identifying measurable drivers behind high or low engagement.",
+  "tags": ["content", "analytics", "sentiment", "readability", "engagement"],
+  "source": "https://github.com/oimiragieo/agent-studio/tree/406628a513993fbc92c097db4a2b11522bdf8675/.claude/skills/content-analyzer",
+  "version": "1.0.0"
+}

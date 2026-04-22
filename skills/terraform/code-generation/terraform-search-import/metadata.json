@@ -1,0 +1,8 @@
+{
+  "title": "Terraform Search and Import",
+  "description": "Discover existing cloud resources with Terraform Search and import them safely into managed Terraform state.",
+  "purpose": "Use when onboarding existing cloud resources into Terraform state with controlled import workflows.",
+  "tags": ["terraform", "import", "state-management", "cloud-inventory"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/code-generation/skills/terraform-search-import/SKILL.md",
+  "version": "1.0.0"
+}

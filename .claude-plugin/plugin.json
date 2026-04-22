@@ -1,0 +1,20 @@
+{
+  "name": "kieksme-agent-skills",
+  "version": "1.0.0",
+  "description": "kieksme skill catalog for platform, frontend, data, and Terraform workflows.",
+  "author": {
+    "name": "kieksme",
+    "url": "https://github.com/kieksmeRepo"
+  },
+  "homepage": "https://github.com/kieksmeRepo/tp-skills",
+  "repository": "https://github.com/kieksmeRepo/tp-skills",
+  "license": "GPL-3.0",
+  "keywords": [
+    "kieksme",
+    "agent-skills",
+    "terraform",
+    "frontend",
+    "platform",
+    "data"
+  ]
+}

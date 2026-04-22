@@ -1,0 +1,8 @@
+{
+  "title": "Terraform Test",
+  "description": "Write and run Terraform tests with .tftest.hcl files, run blocks, assertions, and mock-aware strategies.",
+  "purpose": "Use when you need reliable Terraform tests with assertions, run blocks, and mock-aware workflows.",
+  "tags": ["terraform", "testing", "tftest", "quality-assurance"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/code-generation/skills/terraform-test/SKILL.md",
+  "version": "1.0.0"
+}

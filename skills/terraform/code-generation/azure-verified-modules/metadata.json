@@ -1,0 +1,8 @@
+{
+  "title": "Azure Verified Modules",
+  "description": "Apply Azure Verified Modules requirements for Terraform module quality, compatibility, and certification readiness.",
+  "purpose": "Use when building Terraform modules for Azure Verified Modules compliance and certification readiness.",
+  "tags": ["terraform", "azure", "verified-modules", "module-quality"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/code-generation/skills/azure-verified-modules/SKILL.md",
+  "version": "1.0.0"
+}

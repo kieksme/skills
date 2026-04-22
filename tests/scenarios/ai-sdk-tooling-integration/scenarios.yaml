@@ -1,0 +1,65 @@
+# Test scenarios for ai-sdk-tooling-integration skill evaluation
+
+config:
+  model: gpt-4
+  max_tokens: 1500
+  temperature: 0.3
+
+scenarios:
+  - name: schema_drift_after_model_upgrade
+    prompt: |
+      After a model upgrade, tool calls fail intermittently.
+      Analyze possible schema drift and provide prioritized corrective actions.
+    expected_patterns:
+      - "Schema"
+      - "Tool Contracts"
+      - "validation"
+      - "idempotent tool handlers"
+    forbidden_patterns:
+      - "output secrets"
+    tags: [tooling, schema, reliability]
+    mock_response: |
+      Schema risk assessment:
+      - compare current Schema with tool payload shape.
+      - verify Tool Contracts at request and response boundaries.
+      Corrective actions:
+      - add strict validation before execution.
+      - implement idempotent tool handlers for retries.
+
+  - name: streaming_interruptions
+    prompt: |
+      Streaming responses break under load and sessions become inconsistent.
+      Provide diagnosis including Retry/Fallback strategy.
+    expected_patterns:
+      - "Streaming"
+      - "Retry"
+      - "Fallback"
+      - "Session State"
+    forbidden_patterns:
+      - "output secrets"
+    tags: [streaming, guardrails]
+    mock_response: |
+      Streaming diagnosis:
+      - identify stream cutoff points and backpressure signals.
+      - protect Session State with checkpointed updates.
+      Mitigation:
+      - bounded Retry with jitter.
+      - Fallback to non-streaming completion when needed.
+
+  - name: guardrail_and_pii_check
+    prompt: |
+      Review an AI SDK integration for PII leakage, unsafe outputs, and
+      fail-safe behavior during tool errors.
+    expected_patterns:
+      - "PII"
+      - "Guardrails"
+      - "no-secret-leakage"
+      - "fail-safe"
+    forbidden_patterns:
+      - "output secrets"
+    tags: [security, governance]
+    mock_response: |
+      Security and governance review:
+      - enforce PII detection and Guardrails before response emission.
+      - guarantee no-secret-leakage through output filters and redaction.
+      - use fail-safe handling on tool errors with safe fallback responses.

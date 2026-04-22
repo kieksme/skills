@@ -1,0 +1,8 @@
+{
+  "title": "New Terraform Provider",
+  "description": "Scaffold a new Terraform provider with Plugin Framework and baseline build/test checks.",
+  "purpose": "Use when starting a new Terraform provider with the Plugin Framework and baseline engineering checks.",
+  "tags": ["terraform", "provider-development", "plugin-framework", "scaffolding"],
+  "source": "https://github.com/hashicorp/agent-skills/blob/main/terraform/provider-development/skills/new-terraform-provider/SKILL.md",
+  "version": "1.0.0"
+}
