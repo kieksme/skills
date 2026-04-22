@@ -10,7 +10,8 @@ const CHAT_SYSTEM_PROMPT = [
   'Do not mention internal policies.',
   'Return strict JSON only with this shape:',
   '{"message":"string","questions":[{"id":"string","label":"string","multiSelect":boolean,"options":["string"]}]}',
-  'questions is optional. When provided, include 1-4 questions with 2-6 options each.'
+  'questions is optional. When provided, include 1-4 questions with 2-6 options each.',
+  'For every yes/no question, always return exactly two options: ["Ja", "Nein"] and set multiSelect to false.'
 ].join(' ');
 
 interface ChatQuestion {
@@ -23,6 +24,10 @@ interface ChatQuestion {
 interface ChatResponsePayload {
   message: string;
   questions?: ChatQuestion[];
+}
+
+function isBinaryOption(option: string) {
+  return ['ja', 'nein', 'yes', 'no', 'true', 'false'].includes(option.trim().toLowerCase());
 }
 
 function normalizeChatResponse(rawText: string): ChatResponsePayload {
@@ -59,17 +64,23 @@ function normalizeChatResponse(rawText: string): ChatResponsePayload {
       if (!Array.isArray(options) || options.length < 2) {
         throw new Error('question options must include at least 2 items');
       }
+
       const normalizedOptions = options
         .filter((option): option is string => typeof option === 'string' && option.trim().length > 0)
         .slice(0, 6);
       if (normalizedOptions.length < 2) {
         throw new Error('question options are invalid');
       }
+
+      const binaryByOptions = normalizedOptions.length === 2 && normalizedOptions.every((option) => isBinaryOption(option));
+      const binaryByLabel = /ja\/nein|yes\/no|true\/false/i.test(label);
+      const shouldUseJaNein = binaryByOptions || binaryByLabel;
+
       return {
         id: typeof id === 'string' && id.trim().length > 0 ? id : `question-${index + 1}`,
         label: label.trim(),
-        multiSelect: Boolean(multiSelect),
-        options: normalizedOptions
+        multiSelect: shouldUseJaNein ? false : Boolean(multiSelect),
+        options: shouldUseJaNein ? ['Ja', 'Nein'] : normalizedOptions
       };
     });
 
