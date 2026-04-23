@@ -37,6 +37,7 @@ const baseUrl = (import.meta as ImportMeta & { env: { BASE_URL: string } }).env.
 
       <div class="mt-4 flex flex-wrap gap-3">
         <button id="chat-send" class="inline-flex min-h-11 items-center justify-center rounded-xs border border-transparent bg-slate-900 px-4 py-2 text-sm font-semibold text-white dark:bg-kieks-fuchsia">Send</button>
+        <button id="chat-voice" class="inline-flex min-h-11 items-center justify-center rounded-xs border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800">🎤 Voice input</button>
         <button id="chat-finalize" class="inline-flex min-h-11 items-center justify-center rounded-xs border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800" disabled>Create ZIP</button>
       </div>
       <p id="chat-status" class="mt-3 text-sm text-slate-500 dark:text-slate-400">No messages yet.</p>
@@ -85,6 +86,7 @@ Click "Create ZIP" after the chat is finalized to preview generated files.</pre>
   const chatBox = document.getElementById('chat-messages');
   const input = document.getElementById('chat-input') as HTMLTextAreaElement | null;
   const sendButton = document.getElementById('chat-send') as HTMLButtonElement | null;
+  const voiceButton = document.getElementById('chat-voice') as HTMLButtonElement | null;
   const finalizeButton = document.getElementById('chat-finalize') as HTMLButtonElement | null;
   const status = document.getElementById('chat-status');
   const packagePreview = document.getElementById('package-preview');
@@ -96,6 +98,9 @@ Click "Create ZIP" after the chat is finalized to preview generated files.</pre>
   const messages: ChatMessage[] = [];
   let pendingQuestions: ChatQuestion[] = [];
   const selectedClarifications = new Map<string, Set<string>>();
+  const SpeechRecognitionCtor = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+  let speechRecognition: any = null;
+  let isVoiceListening = false;
 
   const escapeHtml = (value: string) =>
     value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -179,11 +184,12 @@ Click "Create ZIP" after the chat is finalized to preview generated files.</pre>
   }
 
   function setBusy(isBusy: boolean) {
-    if (!sendButton || !input || !finalizeButton || !sendClarificationsButton) return;
+    if (!sendButton || !input || !finalizeButton || !sendClarificationsButton || !voiceButton) return;
     sendButton.disabled = isBusy;
     input.disabled = isBusy;
     finalizeButton.disabled = isBusy || messages.length === 0;
     sendClarificationsButton.disabled = isBusy || !hasAllQuestionAnswers();
+    voiceButton.disabled = isBusy || !SpeechRecognitionCtor;
   }
 
   async function requestJson<T>(path: string, payload: unknown): Promise<T> {
@@ -270,8 +276,55 @@ Click "Create ZIP" after the chat is finalized to preview generated files.</pre>
   renderMessages();
   renderClarificationQuestions();
   setBusy(false);
+  if (!SpeechRecognitionCtor && voiceButton) {
+    voiceButton.disabled = true;
+    voiceButton.textContent = '🎤 Voice not supported';
+  } else if (SpeechRecognitionCtor) {
+    speechRecognition = new SpeechRecognitionCtor();
+    speechRecognition.lang = 'de-DE';
+    speechRecognition.continuous = false;
+    speechRecognition.interimResults = true;
+
+    speechRecognition.onstart = () => {
+      isVoiceListening = true;
+      if (voiceButton) voiceButton.textContent = '⏹ Stop recording';
+      if (status) status.textContent = 'Listening... speak now.';
+    };
+
+    speechRecognition.onresult = (event: any) => {
+      if (!input) return;
+      let transcript = '';
+      for (let index = event.resultIndex; index < event.results.length; index += 1) {
+        transcript += event.results[index][0]?.transcript ?? '';
+      }
+      if (!transcript.trim()) return;
+      const prefix = input.value.trim().length > 0 ? `${input.value.trim()} ` : '';
+      input.value = `${prefix}${transcript.trim()}`.trim();
+    };
+
+    speechRecognition.onerror = () => {
+      if (status) status.textContent = 'Voice input failed. Please try again or type manually.';
+    };
+
+    speechRecognition.onend = () => {
+      isVoiceListening = false;
+      if (voiceButton) voiceButton.textContent = '🎤 Voice input';
+      if (status && status.textContent === 'Listening... speak now.') {
+        status.textContent = 'Voice input finished.';
+      }
+    };
+  }
+
   sendButton?.addEventListener('click', () => {
     void sendMessage();
+  });
+  voiceButton?.addEventListener('click', () => {
+    if (!speechRecognition) return;
+    if (isVoiceListening) {
+      speechRecognition.stop();
+      return;
+    }
+    speechRecognition.start();
   });
   input?.addEventListener('keydown', (event) => {
     if (!(event instanceof KeyboardEvent)) return;
