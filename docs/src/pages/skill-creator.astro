@@ -20,7 +20,7 @@ const baseUrl = (import.meta as ImportMeta & { env: { BASE_URL: string } }).env.
         Start with your intent, for example: domain, trigger conditions, required output files, and constraints.
       </p>
 
-      <div id="chat-messages" class="mt-4 flex min-h-[320px] flex-col gap-3 rounded-xs border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800" aria-live="polite"></div>
+      <div id="chat-messages" class="mt-4 flex h-[360px] flex-col gap-3 overflow-y-auto overflow-x-hidden rounded-xs border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800" aria-live="polite"></div>
       <div id="clarification-questions" class="mt-4 hidden rounded-xs border border-kieks-aqua/30 bg-kieks-aqua-50 p-3 dark:bg-kieks-navy/40">
         <p class="text-xs font-semibold uppercase tracking-wide text-kieks-navy dark:text-kieks-aqua">Clarification questions</p>
         <div id="clarification-list" class="mt-2 space-y-3"></div>
@@ -47,7 +47,9 @@ const baseUrl = (import.meta as ImportMeta & { env: { BASE_URL: string } }).env.
       <p class="text-sm text-slate-500 dark:text-slate-400">
         The finalized response must include `SKILL.md` and `metadata.json`. ZIP is generated in the browser.
       </p>
-      <pre id="package-preview" class="mt-4 min-h-[320px] overflow-auto rounded-xs border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"></pre>
+      <pre id="package-preview" class="mt-4 min-h-[320px] overflow-auto rounded-xs border border-slate-200 bg-slate-50 p-3 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">No package generated yet.
+
+Click "Create ZIP" after the chat is finalized to preview generated files.</pre>
       <a id="download-link" class="mt-4 hidden min-h-11 items-center justify-center rounded-xs border border-transparent bg-kieks-aqua px-4 py-2 text-sm font-semibold text-kieks-navy" download>Download ZIP</a>
     </article>
   </section>
@@ -209,7 +211,7 @@ const baseUrl = (import.meta as ImportMeta & { env: { BASE_URL: string } }).env.
     try {
       const payload = { messages };
       const data = await requestJson<ChatResponsePayload>('api/skill-creator/chat', payload);
-      messages.push({ role: 'assistant', content: String(data.message ?? '') });
+      messages.push({ role: 'assistant', content: String(data.message ?? 'I need a bit more detail to create a concrete skill package.') });
       pendingQuestions = Array.isArray(data.questions) ? data.questions : [];
       selectedClarifications.clear();
       renderMessages();
@@ -239,7 +241,13 @@ const baseUrl = (import.meta as ImportMeta & { env: { BASE_URL: string } }).env.
       const data = await requestJson<FinalizePayload>('api/skill-creator/finalize', { messages });
       const folder = String(data.skillFolderName ?? 'generated-skill');
       const files = data.files ?? {};
-      packagePreview.textContent = JSON.stringify(data, null, 2);
+      const filePreview = Object.entries(files)
+        .map(([relativePath, content]) => {
+          const snippet = String(content).trim().slice(0, 400);
+          return `# ${relativePath}\n${snippet}${String(content).length > 400 ? '\n... (truncated)' : ''}`;
+        })
+        .join('\n\n');
+      packagePreview.textContent = filePreview || JSON.stringify(data, null, 2);
 
       const zip = new JSZip();
       for (const [relativePath, content] of Object.entries(files)) {

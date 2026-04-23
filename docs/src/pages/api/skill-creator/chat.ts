@@ -30,9 +30,42 @@ function isBinaryOption(option: string) {
   return ['ja', 'nein', 'yes', 'no', 'true', 'false'].includes(option.trim().toLowerCase());
 }
 
+function tryParseJsonObject(value: string): unknown {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    // continue
+  }
+
+  const fencedMatch = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  if (fencedMatch?.[1]) {
+    try {
+      return JSON.parse(fencedMatch[1].trim());
+    } catch {
+      // continue
+    }
+  }
+
+  const firstBrace = trimmed.indexOf('{');
+  const lastBrace = trimmed.lastIndexOf('}');
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    const candidate = trimmed.slice(firstBrace, lastBrace + 1);
+    try {
+      return JSON.parse(candidate);
+    } catch {
+      // continue
+    }
+  }
+
+  return null;
+}
+
 function normalizeChatResponse(rawText: string): ChatResponsePayload {
   try {
-    const parsed = JSON.parse(rawText) as unknown;
+    const parsed = tryParseJsonObject(rawText);
     if (!parsed || typeof parsed !== 'object') {
       throw new Error('Chat response must be an object');
     }
