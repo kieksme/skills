@@ -79,11 +79,10 @@ jobs:
           fi
 
       - name: Check evaluation results
-        if: always()
+        if: always() && steps.harness.outputs.exit_code != '0'
         run: |
-          if [ "${{ steps.harness.outputs.exit_code }}" != "0" ]; then
-            echo "::warning::Some skills have failing scenarios"
-          fi
+          echo "::error::Some skills have failing scenarios"
+          exit 1
 
       - name: Upload results
         if: always()

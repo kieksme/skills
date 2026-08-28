@@ -52,6 +52,13 @@ pnpm build
 
 ## Deployment
 
-GitHub Pages wird im Workflow `.github/workflows/release-please.yml` gebaut und aus `docs/` veröffentlicht.
-Das Deployment läuft nur dann, wenn `Release Please` tatsächlich ein neues Release erstellt (`releases_created == true`).
-Set the `RELEASE_PLEASE_TOKEN` repository secret (PAT or GitHub App token) so PR-triggered checks run for Release Please PRs.
+Die statische Docs-Site wird durch `.github/workflows/pages.yml` auf GitHub Pages veröffentlicht.
+Der Workflow läuft bei veröffentlichten GitHub Releases und kann zusätzlich manuell gestartet werden.
+Vor dem Build werden `index.json`, `skills/` und der Mock-Harness-Snapshot nach `docs/` kopiert.
+
+Der Skill Creator benötigt eine separate serverseitige API, weil GitHub Pages keine API-Routen ausführt.
+Setze dafür beim Docs-Build `PUBLIC_SKILL_CREATOR_API_URL` auf die externe API-Basis-URL.
+Die API verwendet `OPENAI_API_KEY` und optional `OPENAI_MODEL` als Server-Secrets.
+Eine Netlify-Functions-Referenzimplementierung inklusive Routing liegt unter `docs/netlify/`.
+
+`RELEASE_PLEASE_TOKEN` ist als Repository-Secret für den Release-Please-Workflow erforderlich.

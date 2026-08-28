@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import AstroPWA from '@vite-pwa/astro';
-import netlify from '@astrojs/netlify';
 
 export default defineConfig({
   site: 'https://kieksmeRepo.github.io/tp-skills',
@@ -9,7 +8,6 @@ export default defineConfig({
   output: 'static',
   outDir: './dist',
   integrations: [
-    netlify(),
     AstroPWA({
       registerType: 'autoUpdate',
       manifest: {

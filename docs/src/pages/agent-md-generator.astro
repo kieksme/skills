@@ -18,26 +18,10 @@ const domainMap = [
     id: 'terraform',
     label: 'Terraform (HashiCorp)',
     skills: [
-      'terraform-style-guide',
-      'terraform-test',
-      'azure-verified-modules',
-      'terraform-search-import',
-      'refactor-module',
-      'terraform-stacks',
-      'new-terraform-provider',
-      'run-acceptance-tests',
-      'provider-actions',
-      'provider-resources',
-      'provider-test-patterns'
+      'terraform-style-guide'
     ]
   },
-  { id: 'streaming', label: 'Streaming pipelines', skills: ['streaming-pipeline-troubleshooting'] },
-  { id: 'bigdata', label: 'Big data platforms', skills: ['big-data-platform-optimization'] },
-  { id: 'nextjs', label: 'Next.js performance', skills: ['nextjs-app-router-performance'] },
-  { id: 'canvas-design', label: 'Canvas design', skills: ['canvas-design'] },
-  { id: 'edge', label: 'Edge observability', skills: ['edge-functions-observability'] },
-  { id: 'ai', label: 'AI SDK and tooling', skills: ['ai-sdk-tooling-integration'] },
-  { id: 'skill-authoring', label: 'Skill authoring', skills: ['skill-creator', 'skill-prompt-security-audit', 'readme', 'content-analyzer'] }
+  { id: 'skill-authoring', label: 'Skill authoring', skills: ['skill-creator', 'skill-prompt-security-audit'] }
 ];
 
 const codingPresetMap = [
@@ -196,7 +180,7 @@ const skillCatalog = skills.map((skill) => ({
     </section>
 </ToolPageTemplate>
 
-<script define:vars={{ domainMap, codingPresetMap, skillCatalog, baseUrl }}>
+<script is:inline define:vars={{ domainMap, codingPresetMap, skillCatalog, baseUrl }}>
   // @ts-nocheck
   const data = { domainMap, codingPresetMap, skillCatalog, baseUrl };
 

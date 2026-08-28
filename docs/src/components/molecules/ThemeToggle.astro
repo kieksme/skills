@@ -28,7 +28,7 @@ const iconByTheme = {
   </button>
 </div>
 
-<script define:vars={{ iconByTheme }}>
+<script is:inline define:vars={{ iconByTheme }}>
   const themeKey = 'tp-skills-theme';
   const root = document.documentElement;
   const media = window.matchMedia('(prefers-color-scheme: dark)');

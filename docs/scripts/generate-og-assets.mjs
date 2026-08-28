@@ -69,23 +69,7 @@ function getIconName(skillName) {
   const iconMap = {
     default: 'sparkles',
     'iac-infrastructure-as-code': 'settings-cog',
-    'streaming-pipeline-troubleshooting': 'arrows-shuffle',
-    'big-data-platform-optimization': 'database',
-    'nextjs-app-router-performance': 'rocket',
-    'edge-functions-observability': 'activity',
-    'ai-sdk-tooling-integration': 'sparkles',
-    'tailwind-design-system': 'palette',
     'terraform-style-guide': 'file-code',
-    'terraform-test': 'test-pipe',
-    'azure-verified-modules': 'shield-check',
-    'terraform-search-import': 'search',
-    'refactor-module': 'components',
-    'terraform-stacks': 'stack-2',
-    'new-terraform-provider': 'package-import',
-    'run-acceptance-tests': 'playstation-circle',
-    'provider-actions': 'bolt',
-    'provider-resources': 'database',
-    'provider-test-patterns': 'clipboard-check',
     'skill-prompt-security-audit': 'shield-search'
   };
 
