@@ -1,8 +1,8 @@
 {
   "title": "MCP Server Development Guide",
-  "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools.",
-  "purpose": "Use when designing and implementing MCP servers that expose reliable tools for LLM-driven workflows.",
-  "tags": ["mcp", "server-development", "llm-tools", "integration", "testing", "branding", "linting", "transports"],
+  "description": "Guide for creating high-quality MCP (Model Context Protocol) servers in TypeScript that enable LLMs to interact with external services through well-designed tools.",
+  "purpose": "Use when designing and implementing TypeScript MCP servers that expose reliable tools for LLM-driven workflows.",
+  "tags": ["mcp", "typescript", "server-development", "llm-tools", "integration", "testing", "branding", "linting", "transports"],
   "source": "https://github.com/anthropics/skills/tree/main/skills/mcp-builder",
-  "version": "2.2.0"
+  "version": "3.0.0"
 }

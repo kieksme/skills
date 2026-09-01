@@ -1,7 +1,7 @@
 ---
 name: mcp-builder
-description: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
-version: 2.2.0
+description: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services. kieksme MCP servers are built in TypeScript (Node/MCP SDK) only.
+version: 3.0.0
 license: Complete terms in LICENSE-Apache-2.0-Anthropic.md
 ---
 
@@ -50,22 +50,19 @@ Key pages to review:
 
 #### 1.3 Study Framework Documentation
 
-**Recommended stack:**
-- **Language**: TypeScript (high-quality SDK support and good compatibility in many execution environments e.g. MCPB. Plus AI models are good at generating TypeScript code, benefiting from its broad usage, static typing and good linting tools)
-- **Package manager**: kieksme projects standardize on `pnpm` via Corepack (`corepack enable && corepack prepare pnpm@latest --activate`); use it for install/build/test scripts in the TypeScript path instead of `npm`/`yarn` unless the target repo already commits to a different tool.
+**Required stack (not a choice):**
+- **Language**: TypeScript, always — kieksme does not build MCP servers in Python or any other language. TypeScript has high-quality SDK support, good compatibility across execution environments (e.g. MCPB), and AI models are good at generating it, benefiting from its broad usage, static typing, and good linting tools.
+- **Package manager**: kieksme projects standardize on `pnpm` via Corepack (`corepack enable && corepack prepare pnpm@latest --activate`); use it for install/build/test/lint scripts instead of `npm`/`yarn` unless the target repo already commits to a different tool.
 - **Transport**: support **both** stdio and Streamable HTTP from the same server (mandatory — see 2.4). stdio covers local/desktop clients (Claude Desktop, Cursor, VS Code, OpenCode running the server as a child process); Streamable HTTP, using stateless JSON (simpler to scale and maintain than stateful sessions), covers remote/hosted deployments.
 
 **Load framework documentation:**
 
 - **MCP Best Practices**: [📋 View Best Practices](./reference/mcp_best_practices.md) - Core guidelines
-
-**For TypeScript (recommended):**
 - **TypeScript SDK**: Use WebFetch to load `https://raw.githubusercontent.com/modelcontextprotocol/typescript-sdk/main/README.md`
 - [⚡ TypeScript Guide](./reference/node_mcp_server.md) - TypeScript patterns and examples
 
-**For Python:**
-- **Python SDK**: Use WebFetch to load `https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/main/README.md`
-- [🐍 Python Guide](./reference/python_mcp_server.md) - Python patterns and examples
+If a request calls for a Python or other non-TypeScript MCP server, say so explicitly and confirm
+before proceeding — this skill's guidance, templates, and lint setup all assume TypeScript.
 
 #### 1.4 Plan Your Implementation
 
@@ -97,11 +94,9 @@ If the server will provision, inspect, or mutate cloud resources (Terraform stat
 
 #### 2.1 Set Up Project Structure
 
-See language-specific guides for project setup:
-- [⚡ TypeScript Guide](./reference/node_mcp_server.md) - Project structure, package.json, tsconfig.json
-- [🐍 Python Guide](./reference/python_mcp_server.md) - Module organization, dependencies
+See the [⚡ TypeScript Guide](./reference/node_mcp_server.md) for project structure, `package.json`, and `tsconfig.json`.
 
-**TypeScript projects — set up linting alongside the project (mandatory):**
+**Set up linting alongside the project (mandatory):**
 Copy [`templates/eslint.config.template.mjs`](./templates/eslint.config.template.mjs) to the
 server repo as `eslint.config.mjs` (ESLint 9 flat config + `typescript-eslint`), then add these
 `package.json` scripts:
@@ -138,7 +133,7 @@ Create shared utilities:
 For each tool:
 
 **Input Schema:**
-- Use Zod (TypeScript) or Pydantic (Python)
+- Use Zod
 - Include constraints and clear descriptions
 - Add examples in field descriptions
 
@@ -178,9 +173,9 @@ the transport at startup, not at build time:
 - Test both paths in Phase 3 — MCP Inspector supports both `stdio` and `http` targets.
 - **Never write to stdout in the stdio path** — it carries JSON-RPC framing; log via `console.error`/stderr (or a logger configured to stderr) instead. The lint config in 2.1 flags stray `console.log` for this reason.
 
-See [⚡ TypeScript Guide](./reference/node_mcp_server.md) / [🐍 Python Guide](./reference/python_mcp_server.md)
-for transport bootstrapping code; extend the single-transport example there to branch on the
-flag/env var above instead of hardcoding one transport.
+See the [⚡ TypeScript Guide](./reference/node_mcp_server.md) for transport bootstrapping code;
+extend the single-transport example there to branch on the flag/env var above instead of
+hardcoding one transport.
 
 ---
 
@@ -196,16 +191,11 @@ Review for:
 
 #### 3.2 Build and Test
 
-**TypeScript:**
 - Run `pnpm build` (or `npm run build` if the target repo isn't on pnpm) to verify compilation
 - Run `pnpm lint` (fix with `pnpm lint:fix`) — see the ESLint setup in 2.1
 - Test with MCP Inspector: `npx @modelcontextprotocol/inspector`, against both the stdio and HTTP transport (2.4)
 
-**Python:**
-- Verify syntax: `python -m py_compile your_server.py`
-- Test with MCP Inspector
-
-See language-specific guides for detailed testing approaches and quality checklists.
+See the [⚡ TypeScript Guide](./reference/node_mcp_server.md) for detailed testing approaches and quality checklists.
 
 #### 3.3 Unit Tests (mandatory)
 
@@ -213,9 +203,8 @@ Every tool ships with automated unit tests — this is not optional, and evaluat
 not substitute for it: evaluations check end-to-end agent behavior against a live server,
 unit tests check each tool's logic in isolation, fast and without live credentials.
 
-- **TypeScript**: use [Vitest](https://vitest.dev) (`pnpm add -D vitest`, run via `pnpm test`) —
-  matches the toolchain kieksme already standardizes on for TypeScript projects.
-- **Python**: use `pytest` (run via `pytest` or `python -m pytest`).
+Use [Vitest](https://vitest.dev) (`pnpm add -D vitest`, run via `pnpm test`) — matches the
+toolchain kieksme already standardizes on for TypeScript projects.
 
 Minimum coverage per tool:
 - One happy-path test with a realistic input
@@ -327,17 +316,9 @@ Load these resources as needed during development:
   - Security and error handling standards
 
 ### SDK Documentation (Load During Phase 1/2)
-- **Python SDK**: Fetch from `https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/main/README.md`
 - **TypeScript SDK**: Fetch from `https://raw.githubusercontent.com/modelcontextprotocol/typescript-sdk/main/README.md`
 
-### Language-Specific Implementation Guides (Load During Phase 2)
-- [🐍 Python Implementation Guide](./reference/python_mcp_server.md) - Complete Python/FastMCP guide with:
-  - Server initialization patterns
-  - Pydantic model examples
-  - Tool registration with `@mcp.tool`
-  - Complete working examples
-  - Quality checklist
-
+### TypeScript Implementation Guide (Load During Phase 2)
 - [⚡ TypeScript Implementation Guide](./reference/node_mcp_server.md) - Complete TypeScript guide with:
   - Project structure
   - Zod schema patterns

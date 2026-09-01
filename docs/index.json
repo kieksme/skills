@@ -25,7 +25,7 @@
     {
       "name": "mcp-builder",
       "path": "skills/platform/mcp-builder/SKILL.md",
-      "description": "Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools."
+      "description": "Guide for creating high-quality MCP (Model Context Protocol) servers in TypeScript that enable LLMs to interact with external services through well-designed tools."
     }
   ]
 }
