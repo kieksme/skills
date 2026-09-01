@@ -1,7 +1,7 @@
 ---
 name: mcp-builder
 description: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
-version: 2.0.0
+version: 2.1.0
 license: Complete terms in LICENSE-Apache-2.0-Anthropic.md
 ---
 
@@ -17,7 +17,7 @@ Create MCP (Model Context Protocol) servers that enable LLMs to interact with ex
 
 ## 🚀 High-Level Workflow
 
-Creating a high-quality MCP server involves four main phases:
+Creating a high-quality MCP server involves five main phases:
 
 ### Phase 1: Deep Research and Planning
 
@@ -156,6 +156,23 @@ Review for:
 
 See language-specific guides for detailed testing approaches and quality checklists.
 
+#### 3.3 Unit Tests (mandatory)
+
+Every tool ships with automated unit tests — this is not optional, and evaluations (Phase 4) do
+not substitute for it: evaluations check end-to-end agent behavior against a live server,
+unit tests check each tool's logic in isolation, fast and without live credentials.
+
+- **TypeScript**: use [Vitest](https://vitest.dev) (`pnpm add -D vitest`, run via `pnpm test`) —
+  matches the toolchain kieksme already standardizes on for TypeScript projects.
+- **Python**: use `pytest` (run via `pytest` or `python -m pytest`).
+
+Minimum coverage per tool:
+- One happy-path test with a realistic input
+- One test per validation/error branch (bad input, upstream API error, empty result)
+- Mock the external API/service — unit tests must not require live network access or real credentials
+
+Wire the test command into CI (see Phase 5) so a broken tool fails the build, not just the evaluation.
+
 ---
 
 ### Phase 4: Create Evaluations
@@ -203,6 +220,44 @@ Create an XML file with this structure:
 
 ---
 
+### Phase 5: Publish & Distribute
+
+#### 5.1 Use the kieksme README Template
+
+Copy [`templates/README.template.md`](./templates/README.template.md) to the server repo's
+root as `README.md` and fill in every `{{PLACEHOLDER}}`. It already wires up:
+
+- The kieks.me banner (light/dark, via the `<picture>` element — no extra setup needed)
+- A CI badge (points at `.github/workflows/ci.yml` — adjust the path if your workflow differs)
+- A quality badge (`mcp-quality: evaluated`) that signals Phase 4's evaluation was run
+- A license badge
+- The mandatory sections: Tools, Configuration, Testing, and "Where to find this server"
+
+Do not hand-roll a different README structure for a kieksme-built MCP server — consistency
+across servers is the point of the template.
+
+#### 5.2 Quality Badge
+
+The quality badge in the template (`https://img.shields.io/badge/mcp--quality-evaluated-00FFDC?...`)
+is a static, self-hosted shields.io badge — no signup or external service required. Only add it
+once Phase 4's evaluation has actually been run and passes; do not add it as decoration before
+the server is evaluated. If the repo has CI, wire a badge for that too (see the template).
+
+#### 5.3 List on MCP Marketplaces
+
+Once the server is built, tested, and evaluated, list it so agents/clients can discover it:
+
+- **[MCP Market](https://mcpmarket.com/submit)** — dedicated submission form.
+- **[MCP Marketplace](https://mcp-marketplace.io/)** — curated, security-scanned directory;
+  submission requires creating an account and using its "Submit a Tool" flow.
+
+Both submissions need a human to sign in and fill out the listing on that site — creating
+accounts and submitting public listings on third-party services is **not** something an agent
+should do unattended, even when asked to "register" a server. Prepare the listing content
+(name, description, repo link, category) and hand it to the maintainer to submit themselves.
+
+---
+
 # Reference Files
 
 ## 📚 Documentation Library
@@ -244,6 +299,11 @@ Load these resources as needed during development:
   - XML format specifications
   - Example questions and answers
   - Running an evaluation with the provided scripts
+
+### README Template (Load During Phase 5)
+- [`templates/README.template.md`](./templates/README.template.md) — kieksme's standard MCP
+  server README: banner, CI/quality/license badges, tools table, config, testing, marketplace
+  checklist. Copy it into the server repo and fill in the placeholders.
 
 ## Related kieksme skills
 
