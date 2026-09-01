@@ -20,6 +20,19 @@ License: Apache License 2.0 (see `LICENSE-Apache-2.0-Anthropic.md`).
 - Added Phase 5 "Publish & Distribute": use the README template, add the quality badge only after
   Phase 4's evaluation passes, and prepare (but do not autonomously submit) listings for
   mcpmarket.com and mcp-marketplace.io — both require a human to sign in and submit the listing.
+- Made **dual-transport support mandatory** (Phase 1.3, 2.4): every server must run over both
+  stdio and Streamable HTTP from one codebase, transport chosen at startup via a flag/env var —
+  previously the guide framed this as an either/or choice based on deployment target.
+- Added an **authentication decision step** for the Streamable HTTP transport (Phase 1.4): pick
+  OAuth 2.1, static bearer token, mTLS, or none-for-localhost before implementing, and enforce it
+  at the transport layer.
+- Added a **mandatory ESLint setup** for TypeScript servers (Phase 2.1, 3.2): flat-config template
+  at `templates/eslint.config.template.mjs` (typescript-eslint + a `no-console` rule that guards
+  against corrupting the stdio JSON-RPC stream), plus required `pnpm lint` / `pnpm lint:fix` /
+  `pnpm test` scripts wired into CI.
+- Extended `templates/README.template.md` with one-click **Add to Cursor** / **Add to VS Code**
+  install buttons and config snippets for **Claude Desktop**, **Claude Code**, and **OpenCode**,
+  each shown for both the stdio and Streamable HTTP variant.
 
 ## History
 

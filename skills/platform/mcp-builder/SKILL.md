@@ -1,7 +1,7 @@
 ---
 name: mcp-builder
 description: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
-version: 2.1.0
+version: 2.2.0
 license: Complete terms in LICENSE-Apache-2.0-Anthropic.md
 ---
 
@@ -53,7 +53,7 @@ Key pages to review:
 **Recommended stack:**
 - **Language**: TypeScript (high-quality SDK support and good compatibility in many execution environments e.g. MCPB. Plus AI models are good at generating TypeScript code, benefiting from its broad usage, static typing and good linting tools)
 - **Package manager**: kieksme projects standardize on `pnpm` via Corepack (`corepack enable && corepack prepare pnpm@latest --activate`); use it for install/build/test scripts in the TypeScript path instead of `npm`/`yarn` unless the target repo already commits to a different tool.
-- **Transport**: Streamable HTTP for remote servers, using stateless JSON (simpler to scale and maintain, as opposed to stateful sessions and streaming responses). stdio for local servers.
+- **Transport**: support **both** stdio and Streamable HTTP from the same server (mandatory — see 2.4). stdio covers local/desktop clients (Claude Desktop, Cursor, VS Code, OpenCode running the server as a child process); Streamable HTTP, using stateless JSON (simpler to scale and maintain than stateful sessions), covers remote/hosted deployments.
 
 **Load framework documentation:**
 
@@ -75,6 +75,19 @@ Review the service's API documentation to identify key endpoints, authentication
 **Tool Selection:**
 Prioritize comprehensive API coverage. List endpoints to implement, starting with the most common operations.
 
+**Authentication for the Streamable HTTP transport (decide now, not during implementation):**
+Since the server must support Streamable HTTP (see 1.3/2.4), pick one before writing code:
+
+| Method | Use when |
+|--------|----------|
+| **OAuth 2.1** | Multi-tenant / hosted for other people; each caller acts as their own identity; required if the upstream API itself is OAuth-protected on behalf of a user |
+| **Static bearer token / API key header** | Single-tenant or internal deployment where one shared credential is acceptable |
+| **mTLS / network-level (VPN, private endpoint)** | Enterprise-internal server never exposed to the public internet |
+| **None** | Only for a server bound to `localhost`/loopback for local dev — never for anything publicly reachable |
+
+Document the chosen method in the README's Configuration section (see Phase 5) and enforce it at
+the transport layer, not per-tool — an unauthenticated tool call should never reach the API client.
+
 **Touching cloud infrastructure?**
 If the server will provision, inspect, or mutate cloud resources (Terraform state, cloud APIs, IaC pipelines), review kieksme's [`iac-infrastructure-as-code`](../iac-infrastructure-as-code/SKILL.md) skill first — it defines the security, cost, and risk-review bar that tools touching infrastructure should meet before they ship.
 
@@ -87,6 +100,25 @@ If the server will provision, inspect, or mutate cloud resources (Terraform stat
 See language-specific guides for project setup:
 - [⚡ TypeScript Guide](./reference/node_mcp_server.md) - Project structure, package.json, tsconfig.json
 - [🐍 Python Guide](./reference/python_mcp_server.md) - Module organization, dependencies
+
+**TypeScript projects — set up linting alongside the project (mandatory):**
+Copy [`templates/eslint.config.template.mjs`](./templates/eslint.config.template.mjs) to the
+server repo as `eslint.config.mjs` (ESLint 9 flat config + `typescript-eslint`), then add these
+`package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run"
+  }
+}
+```
+
+Run `pnpm lint` as part of Phase 3 review, and wire `pnpm lint`, `pnpm test`, and `pnpm build`
+into CI (Phase 5) so a lint or test failure blocks the build, the same as a compile error.
 
 #### 2.2 Implement Core Infrastructure
 
@@ -132,6 +164,24 @@ For each tool:
 - `idempotentHint`: true/false
 - `openWorldHint`: true/false
 
+#### 2.4 Support Both Transports (mandatory)
+
+A kieksme MCP server runs over **both** stdio and Streamable HTTP from the same codebase — pick
+the transport at startup, not at build time:
+
+- Register tools once against a single server instance; only the transport binding differs.
+- Select the transport via a CLI flag (`--transport stdio|http`) or `MCP_TRANSPORT` env var,
+  defaulting to `stdio` (works immediately via `npx`, no hosting required).
+- Implement the Streamable HTTP path with the authentication method decided in Phase 1.4
+  (OAuth 2.1, static bearer token, mTLS, or none-for-localhost-only) — enforce it in the
+  transport/middleware layer so an unauthenticated request never reaches a tool handler.
+- Test both paths in Phase 3 — MCP Inspector supports both `stdio` and `http` targets.
+- **Never write to stdout in the stdio path** — it carries JSON-RPC framing; log via `console.error`/stderr (or a logger configured to stderr) instead. The lint config in 2.1 flags stray `console.log` for this reason.
+
+See [⚡ TypeScript Guide](./reference/node_mcp_server.md) / [🐍 Python Guide](./reference/python_mcp_server.md)
+for transport bootstrapping code; extend the single-transport example there to branch on the
+flag/env var above instead of hardcoding one transport.
+
 ---
 
 ### Phase 3: Review and Test
@@ -148,7 +198,8 @@ Review for:
 
 **TypeScript:**
 - Run `pnpm build` (or `npm run build` if the target repo isn't on pnpm) to verify compilation
-- Test with MCP Inspector: `npx @modelcontextprotocol/inspector`
+- Run `pnpm lint` (fix with `pnpm lint:fix`) — see the ESLint setup in 2.1
+- Test with MCP Inspector: `npx @modelcontextprotocol/inspector`, against both the stdio and HTTP transport (2.4)
 
 **Python:**
 - Verify syntax: `python -m py_compile your_server.py`
@@ -232,6 +283,8 @@ root as `README.md` and fill in every `{{PLACEHOLDER}}`. It already wires up:
 - A quality badge (`mcp-quality: evaluated`) that signals Phase 4's evaluation was run
 - A license badge
 - The mandatory sections: Tools, Configuration, Testing, and "Where to find this server"
+- One-click **Add to Cursor** / **Add to VS Code** install buttons, plus config snippets for
+  **Claude** (Desktop and Code) and **OpenCode** — for both the stdio and Streamable HTTP variant
 
 Do not hand-roll a different README structure for a kieksme-built MCP server — consistency
 across servers is the point of the template.
