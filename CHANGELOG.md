@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.1.0](https://github.com/kieksme/skills/compare/2.0.0...2.1.0) (2026-09-14)
+
+
+### Features
+
+* **marketplace:** add Contabo cloud logo ([e297361](https://github.com/kieksme/skills/commit/e297361a3ab2c2ad25e85de389b6a66c2b5b4919))
+
+
+### Bug Fixes
+
+* **marketplace:** show kieks.me as owner ([a203d5e](https://github.com/kieksme/skills/commit/a203d5e9c23df48e350e2a1748e23bce508e7db0))
+
+
+### Documentation
+
+* **readme:** split contribution guide ([d52776f](https://github.com/kieksme/skills/commit/d52776f12bcbd63dfd5afc27d5681b4bd55e4b0e))
+
 ## [2.0.0](https://github.com/kieksme/skills/compare/1.2.0...2.0.0) (2026-09-14)
 
 
