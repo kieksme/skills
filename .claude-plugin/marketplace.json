@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "kieksme-skills",
   "owner": {
     "name": "kieksme",
@@ -6,7 +7,7 @@
   },
   "metadata": {
     "description": "kieksme marketplace for platform, frontend, data, meta, and Terraform workflow plugins.",
-    "version": "1.11.0"
+    "version": "1.12.0"
   },
   "plugins": [
     {
@@ -156,6 +157,330 @@
         "acceptance-testing"
       ],
       "category": "terraform"
+    },
+    {
+      "name": "kieksme-contabo-mcp",
+      "displayName": "Contabo MCP",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/kieksme/mcp-contabo.git",
+        "path": "contabo-mcp"
+      },
+      "description": "Manage Contabo VPS/VDS instances, images, snapshots, networking, DNS, object storage, secrets, domains, and tags from Claude Code.",
+      "version": "1.5.2",
+      "author": {
+        "name": "kieksme",
+        "url": "https://github.com/kieksme"
+      },
+      "homepage": "https://github.com/kieksme/mcp-contabo",
+      "repository": "https://github.com/kieksme/mcp-contabo",
+      "license": "GPL-3.0-or-later",
+      "keywords": [
+        "mcp",
+        "contabo",
+        "cloud",
+        "vps",
+        "infrastructure"
+      ],
+      "category": "cloud",
+      "strict": false,
+      "userConfig": {
+        "client_id": {
+          "type": "string",
+          "title": "Contabo customer ID",
+          "description": "The OAuth customer ID from the Contabo Control Panel.",
+          "required": true
+        },
+        "client_secret": {
+          "type": "string",
+          "title": "Contabo client secret",
+          "description": "The OAuth client secret from the Contabo Control Panel.",
+          "required": true,
+          "sensitive": true
+        },
+        "api_user": {
+          "type": "string",
+          "title": "Contabo API user",
+          "description": "The API user email from the Contabo Control Panel.",
+          "required": true,
+          "sensitive": true
+        },
+        "api_password": {
+          "type": "string",
+          "title": "Contabo API password",
+          "description": "The API password from the Contabo Control Panel.",
+          "required": true,
+          "sensitive": true
+        }
+      },
+      "mcpServers": {
+        "contabo": {
+          "type": "stdio",
+          "command": "npx",
+          "args": ["-y", "@kieksme/contabo-mcp@1.5.2"],
+          "env": {
+            "CONTABO_CLIENT_ID": "${user_config.client_id}",
+            "CONTABO_CLIENT_SECRET": "${user_config.client_secret}",
+            "CONTABO_API_USER": "${user_config.api_user}",
+            "CONTABO_API_PASSWORD": "${user_config.api_password}"
+          }
+        }
+      }
+    },
+    {
+      "name": "kieksme-listmonk-mcp",
+      "displayName": "Listmonk MCP",
+      "source": {
+        "source": "github",
+        "repo": "kieksme/mcp-listmonk"
+      },
+      "description": "Manage Listmonk newsletters, subscribers, campaigns, templates, and settings through MCP.",
+      "version": "1.3.0",
+      "author": {
+        "name": "kieksme",
+        "url": "https://github.com/kieksme"
+      },
+      "homepage": "https://github.com/kieksme/mcp-listmonk",
+      "repository": "https://github.com/kieksme/mcp-listmonk",
+      "license": "MIT",
+      "keywords": [
+        "mcp",
+        "listmonk",
+        "newsletter",
+        "email",
+        "subscribers"
+      ],
+      "category": "marketing",
+      "strict": false,
+      "userConfig": {
+        "url": {
+          "type": "string",
+          "title": "Listmonk URL",
+          "description": "Base URL of your Listmonk instance, for example https://newsletter.example.com.",
+          "required": true
+        },
+        "api_user": {
+          "type": "string",
+          "title": "Listmonk API user",
+          "description": "The Listmonk API user name.",
+          "required": true
+        },
+        "api_token": {
+          "type": "string",
+          "title": "Listmonk API token",
+          "description": "The Listmonk API token for the selected user.",
+          "required": true,
+          "sensitive": true
+        }
+      },
+      "mcpServers": {
+        "listmonk": {
+          "type": "stdio",
+          "command": "npx",
+          "args": ["-y", "@kieksme/listmonk-mcp@1.3.0"],
+          "env": {
+            "LISTMONK_URL": "${user_config.url}",
+            "LISTMONK_API_USER": "${user_config.api_user}",
+            "LISTMONK_API_TOKEN": "${user_config.api_token}"
+          }
+        }
+      }
+    },
+    {
+      "name": "kieksme-hashnode-mcp",
+      "displayName": "Hashnode MCP",
+      "source": {
+        "source": "github",
+        "repo": "kieksme/mcp-hashnode"
+      },
+      "description": "Create drafts, publish posts, and manage Hashnode blogs through the Hashnode GraphQL API.",
+      "version": "1.1.1",
+      "author": {
+        "name": "kieksme",
+        "url": "https://github.com/kieksme"
+      },
+      "homepage": "https://github.com/kieksme/mcp-hashnode",
+      "repository": "https://github.com/kieksme/mcp-hashnode",
+      "license": "MIT",
+      "keywords": [
+        "mcp",
+        "hashnode",
+        "graphql",
+        "blogging",
+        "publishing"
+      ],
+      "category": "content",
+      "strict": false,
+      "userConfig": {
+        "token": {
+          "type": "string",
+          "title": "Hashnode personal access token",
+          "description": "The personal access token generated in Hashnode developer settings.",
+          "required": true,
+          "sensitive": true
+        }
+      },
+      "mcpServers": {
+        "hashnode": {
+          "type": "stdio",
+          "command": "npx",
+          "args": ["-y", "@kieksme/mcp-hashnode@1.1.1"],
+          "env": {
+            "HASHNODE_TOKEN": "${user_config.token}"
+          }
+        }
+      }
+    },
+    {
+      "name": "kieksme-swetrix-statistics-mcp",
+      "displayName": "Swetrix Statistics MCP",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/kieksme/mcp-swetrix.git",
+        "path": "packages/swetrix-statistics-mcp-server"
+      },
+      "description": "Read-only Swetrix analytics queries for traffic, performance, errors, funnels, and goals.",
+      "version": "1.4.0",
+      "author": {
+        "name": "kieksme",
+        "url": "https://github.com/kieksme"
+      },
+      "homepage": "https://swetrix.com/docs/statistics-api",
+      "repository": "https://github.com/kieksme/mcp-swetrix",
+      "license": "GPL-3.0-only",
+      "keywords": [
+        "mcp",
+        "swetrix",
+        "analytics",
+        "statistics",
+        "traffic"
+      ],
+      "category": "analytics",
+      "strict": false,
+      "userConfig": {
+        "api_key": {
+          "type": "string",
+          "title": "Swetrix API key",
+          "description": "The Swetrix API key used for analytics queries.",
+          "required": true,
+          "sensitive": true
+        },
+        "api_base_url": {
+          "type": "string",
+          "title": "Swetrix API base URL",
+          "description": "Optional self-hosted Swetrix API URL.",
+          "default": "https://api.swetrix.com"
+        }
+      },
+      "mcpServers": {
+        "swetrix-statistics": {
+          "type": "stdio",
+          "command": "npx",
+          "args": ["-y", "@kieksme/swetrix-statistics-mcp@1.4.0"],
+          "env": {
+            "SWETRIX_API_KEY": "${user_config.api_key}",
+            "SWETRIX_API_BASE_URL": "${user_config.api_base_url}"
+          }
+        }
+      }
+    },
+    {
+      "name": "kieksme-swetrix-events-mcp",
+      "displayName": "Swetrix Events MCP",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/kieksme/mcp-swetrix.git",
+        "path": "packages/swetrix-events-mcp-server"
+      },
+      "description": "Track Swetrix pageviews, custom events, heartbeats, errors, and revenue.",
+      "version": "1.4.0",
+      "author": {
+        "name": "kieksme",
+        "url": "https://github.com/kieksme"
+      },
+      "homepage": "https://swetrix.com/docs/events-api",
+      "repository": "https://github.com/kieksme/mcp-swetrix",
+      "license": "GPL-3.0-only",
+      "keywords": [
+        "mcp",
+        "swetrix",
+        "analytics",
+        "tracking",
+        "events"
+      ],
+      "category": "analytics",
+      "strict": false,
+      "userConfig": {
+        "api_base_url": {
+          "type": "string",
+          "title": "Swetrix API base URL",
+          "description": "Optional self-hosted Swetrix API URL.",
+          "default": "https://api.swetrix.com"
+        }
+      },
+      "mcpServers": {
+        "swetrix-events": {
+          "type": "stdio",
+          "command": "npx",
+          "args": ["-y", "@kieksme/swetrix-events-mcp@1.4.0"],
+          "env": {
+            "SWETRIX_API_BASE_URL": "${user_config.api_base_url}"
+          }
+        }
+      }
+    },
+    {
+      "name": "kieksme-swetrix-admin-mcp",
+      "displayName": "Swetrix Admin MCP",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/kieksme/mcp-swetrix.git",
+        "path": "packages/swetrix-admin-mcp-server"
+      },
+      "description": "Manage Swetrix projects, funnels, annotations, views, and organisations.",
+      "version": "1.4.0",
+      "author": {
+        "name": "kieksme",
+        "url": "https://github.com/kieksme"
+      },
+      "homepage": "https://swetrix.com/docs/admin-api",
+      "repository": "https://github.com/kieksme/mcp-swetrix",
+      "license": "GPL-3.0-only",
+      "keywords": [
+        "mcp",
+        "swetrix",
+        "analytics",
+        "admin",
+        "projects"
+      ],
+      "category": "analytics",
+      "strict": false,
+      "userConfig": {
+        "api_key": {
+          "type": "string",
+          "title": "Swetrix API key",
+          "description": "The Swetrix API key used for administration.",
+          "required": true,
+          "sensitive": true
+        },
+        "api_base_url": {
+          "type": "string",
+          "title": "Swetrix API base URL",
+          "description": "Optional self-hosted Swetrix API URL.",
+          "default": "https://api.swetrix.com"
+        }
+      },
+      "mcpServers": {
+        "swetrix-admin": {
+          "type": "stdio",
+          "command": "npx",
+          "args": ["-y", "@kieksme/swetrix-admin-mcp@1.4.0"],
+          "env": {
+            "SWETRIX_API_KEY": "${user_config.api_key}",
+            "SWETRIX_API_BASE_URL": "${user_config.api_base_url}"
+          }
+        }
+      }
     }
   ]
 }
