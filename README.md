@@ -1,64 +1,93 @@
 # Agent Skills
 
-Agent-Skill-Katalog der kieks.me GbR.
+Agent skill catalog maintained by kieks.me GbR.
 
-## Projektstruktur
+This repository is published as [`kieksme/skills`](https://github.com/kieksme/skills). Skills and MCPs use different installation paths.
+
+For project structure, local development, adding skills, builds, and deployment, see [Contribute.md](Contribute.md).
+
+## Installation in Claude and ChatGPT/Codex
+
+### Claude Code
+
+Claude Code can load the kieks.me skills as marketplace plugins. Add the marketplace once, then install the skill bundle you need:
+
+```bash
+claude plugin marketplace add kieksme/skills
+claude plugin install kieksme-platform-skills@kieksme-skills
+```
+
+Available skill bundles include:
 
 ```text
-.
-├── docs/                    # Astro docs-site (Quellcode)
-│   ├── src/
-│   │   ├── layouts/
-│   │   ├── pages/
-│   │   └── styles/
-│   ├── astro.config.mjs
-│   ├── package.json
-│   └── tsconfig.json
-├── skills/                  # Skill-Definitionen (SKILL.md)
-├── index.json               # Skill-Katalog-Metadaten
-├── .github/workflows/pages.yml
-└── templates/basic-skill/
+kieksme-frontend-skills
+kieksme-platform-skills
+kieksme-data-skills
+kieksme-meta-skills
+kieksme-terraform-code-generation
+kieksme-terraform-module-generation
+kieksme-terraform-provider-development
 ```
 
-## Entwicklung
+MCPs are installed through the same marketplace. For example:
 
 ```bash
-corepack enable
-corepack prepare pnpm@10.33.0 --activate
-cp index.json docs/index.json
-cd docs
-pnpm install
-pnpm dev
+claude plugin install kieksme-contabo-mcp@kieksme-skills
 ```
 
-The catalog version in `index.json` matches the release tag `X.Y.Z`. Installation commands should be pinned to that tag, for example `npx skills add kieksmeRepo/tp-skills@1.5.0 --skill <skill-name>`.
+Claude will then request the required credentials. Never commit secrets to this repository.
 
-## Build
+You can also run the marketplace commands directly inside Claude Code:
+
+```text
+/plugin marketplace add kieksme/skills
+/plugin install kieksme-platform-skills@kieksme-skills
+```
+
+### ChatGPT and Codex
+
+In ChatGPT or Codex, invoke the built-in skill installer and provide the GitHub path of the skill you want:
+
+```text
+$skill-installer
+Install the mcp-builder skill from
+https://github.com/kieksme/skills/tree/main/skills/platform/mcp-builder
+```
+
+In ChatGPT, select an installed skill with `@<skill-name>`. In Codex, use `/skills` or `$<skill-name>`. Restart the session if the skill does not appear after installation.
+
+From a terminal, you can alternatively use the `skills` CLI. For the current catalog version:
 
 ```bash
-cd docs
-pnpm check
-pnpm build
+npx skills add kieksme/skills@1.2.0 --skill mcp-builder
 ```
 
-## Skills hinzufügen
+If pnpm is your package manager, use the equivalent `pnpx` command:
 
-1. Ordner unter einer Domäne anlegen, z. B. `skills/<domain>/<skill-name>/` oder für Terraform `skills/terraform/<area>/<skill-name>/`
-2. `SKILL.md` mit Frontmatter erstellen
-3. Skill in `index.json` ergänzen
-4. Skill im AGENTS.md-Generator verknüpfen: in `docs/src/pages/agent-md-generator.astro` unter `domainMap` den Skill-Namen zur passenden Domäne hinzufügen (oder eine neue Domäne anlegen)
-5. Open-Graph-Asset anlegen: `docs/public/og/skills/<skill-name>.png` (1200×630)
-6. Sicherstellen, dass `docs/public/og/default.png` vorhanden ist (Fallback für Nicht-Skill-Seiten)
+```bash
+pnpx skills add kieksme/skills@1.2.0 --skill mcp-builder
+```
 
-## Deployment
+Other examples:
 
-Die statische Docs-Site wird durch `.github/workflows/pages.yml` auf GitHub Pages veröffentlicht.
-Der Workflow läuft bei veröffentlichten GitHub Releases und kann zusätzlich manuell gestartet werden.
-Vor dem Build werden `index.json`, `skills/` und der Mock-Harness-Snapshot nach `docs/` kopiert.
+```bash
+npx skills add kieksme/skills@1.2.0 --skill skill-creator
+npx skills add kieksme/skills@1.2.0 --skill terraform-style-guide
+npx skills add kieksme/skills@1.2.0 --skill iac-infrastructure-as-code
+```
 
-Der Skill Creator benötigt eine separate serverseitige API, weil GitHub Pages keine API-Routen ausführt.
-Setze dafür beim Docs-Build `PUBLIC_SKILL_CREATOR_API_URL` auf die externe API-Basis-URL.
-Die API verwendet `OPENAI_API_KEY` und optional `OPENAI_MODEL` als Server-Secrets.
-Eine Netlify-Functions-Referenzimplementierung inklusive Routing liegt unter `docs/netlify/`.
+To use the current `main` branch instead of a pinned release:
 
-`RELEASE_PLEASE_TOKEN` ist als Repository-Secret für den Release-Please-Workflow erforderlich.
+```bash
+npx skills add kieksme/skills --skill mcp-builder
+```
+
+The unpinned pnpm variant is:
+
+```bash
+pnpx skills add kieksme/skills --skill mcp-builder
+```
+
+The CLI usually detects Codex automatically. For a specific local agent, set the target explicitly, for example with `--agent codex` or `--agent claude-code`.
+
+The Claude MCP plugins in `.claude-plugin/marketplace.json` are not ChatGPT skills. ChatGPT requires MCPs to be configured as a separate connector or supported remote MCP integration; the commands above install skill definitions only. See the [official OpenAI skills guide](https://learn.chatgpt.com/docs/build-skills) for the ChatGPT/Codex workflow.
