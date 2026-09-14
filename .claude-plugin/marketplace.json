@@ -161,6 +161,11 @@
     {
       "name": "kieksme-contabo-mcp",
       "displayName": "Contabo MCP",
+      "interface": {
+        "brandColor": "#00AAEB",
+        "logo": "https://raw.githubusercontent.com/kieksme/skills/main/assets/contabo-cloud.svg",
+        "composerIcon": "https://raw.githubusercontent.com/kieksme/skills/main/assets/contabo-cloud.svg"
+      },
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/kieksme/mcp-contabo.git",
