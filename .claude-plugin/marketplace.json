@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "kieksme-skills",
   "owner": {
-    "name": "kieksme",
-    "url": "https://github.com/kieksmeRepo"
+    "name": "kieks.me GbR",
+    "url": "https://github.com/kieksme"
   },
   "metadata": {
     "description": "kieksme marketplace for platform, frontend, data, meta, and Terraform workflow plugins.",
