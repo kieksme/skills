@@ -4,5 +4,5 @@
   "purpose": "Use when designing and implementing TypeScript MCP servers that expose reliable tools for LLM-driven workflows.",
   "tags": ["mcp", "typescript", "server-development", "llm-tools", "integration", "testing", "branding", "linting", "transports"],
   "source": "https://github.com/anthropics/skills/tree/main/skills/mcp-builder",
-  "version": "3.0.0"
+  "version": "3.1.0"
 }

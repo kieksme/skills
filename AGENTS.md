@@ -16,6 +16,11 @@ This document defines the guardrails for agent work in this repository.
 - Understand first, then change
 - Always document new or changed project rules in `AGENTS.md` (single source of truth for repository rules)
 
+## kieksme MCP server conventions
+
+- A repository named `kieksme/mcp-<service>` publishes `@kieksme/<service>-mcp` to npm and GitHub Packages and `ghcr.io/kieksme/<service>-mcp` as its container image. Repository URLs retain `mcp-<service>`.
+- Original kieksme MCP server code uses GPL-3.0-or-later, with the full GPLv3 text in `LICENSE`. Preserve third-party license notices and do not relicense vendored skill material.
+
 ## GitHub Pages and releases
 
 - The docs site is deployed by `.github/workflows/pages.yml` (Astro build under `docs/`; the job does **not** use the `github-pages` *environment* so that tag-based `release` events are not blocked by environment deployment rules; deploy uses `pages: write` and `id-token: write` on `GITHUB_TOKEN` only).
