@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.1.0](https://github.com/kieksme/skills/compare/2.0.0...2.1.0) (2026-09-23)
+
+
+### Skills
+
+* **skills:** standardize kieksme MCP license and artifact names ([7d4ae81](https://github.com/kieksme/skills/commit/7d4ae81009d074e5042d12fcf3fcfe47594a0ffc))
+* **skills:** standardize kieksme MCP license and artifact names ([d86f7d4](https://github.com/kieksme/skills/commit/d86f7d4616fdd0e8694535e752170d9a5f4df9d9))
+
+
+### Features
+
+* **marketplace:** add Contabo cloud logo ([e297361](https://github.com/kieksme/skills/commit/e297361a3ab2c2ad25e85de389b6a66c2b5b4919))
+
+
+### Bug Fixes
+
+* **marketplace:** show kieks.me as owner ([a203d5e](https://github.com/kieksme/skills/commit/a203d5e9c23df48e350e2a1748e23bce508e7db0))
+
+
+### Documentation
+
+* **readme:** split contribution guide ([d52776f](https://github.com/kieksme/skills/commit/d52776f12bcbd63dfd5afc27d5681b4bd55e4b0e))
+
 ## [2.0.0](https://github.com/kieksme/skills/compare/1.2.0...2.0.0) (2026-09-14)
 
 
