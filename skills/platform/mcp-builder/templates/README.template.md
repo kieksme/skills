@@ -22,11 +22,13 @@
     <img alt="MCP quality: evaluated" src="https://img.shields.io/badge/mcp--quality-evaluated-00FFDC?style=flat-square&labelColor=1E2A45">
   </a>
   <a href="./LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/license-{{LICENSE}}-1E2A45?style=flat-square">
+    <img alt="GPL-3.0-or-later license" src="https://img.shields.io/badge/license-GPL--3.0--or--later-1E2A45?style=flat-square">
   </a>
 </p>
 
 Built with kieksme's [`mcp-builder`](https://github.com/kieksme/skills/tree/main/skills/platform/mcp-builder) skill.
+
+For a `kieksme/mcp-{{SERVICE}}` repository, use `@kieksme/{{SERVICE}}-mcp` as `{{NPM_PACKAGE}}` and `ghcr.io/kieksme/{{SERVICE}}-mcp` as the container image. Repository links keep the `mcp-{{SERVICE}}` name.
 
 ## Overview
 
@@ -176,4 +178,4 @@ Phase 5, before submitting.
 
 ## License
 
-{{LICENSE}} — see [`LICENSE`](./LICENSE).
+GPL-3.0-or-later — see [`LICENSE`](./LICENSE).

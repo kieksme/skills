@@ -38,6 +38,9 @@ License: Apache License 2.0 (see `LICENSE-Apache-2.0-Anthropic.md`).
   "choose your language" branch in `SKILL.md` collapsed to TypeScript-only (Zod, Vitest, ESLint).
   The Python-based evaluation harness in `scripts/` is untouched: it's a client that drives the
   server for evaluation, independent of what language the server itself is written in.
+- Added the kieksme publishing convention: `mcp-<service>` repositories produce
+  `@kieksme/<service>-mcp` packages and `ghcr.io/kieksme/<service>-mcp` images; original
+  kieksme server code uses GPL-3.0-or-later. The vendored skill's Apache-2.0 license remains unchanged.
 
 ## History
 

@@ -1,7 +1,7 @@
 ---
 name: mcp-builder
 description: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services. kieksme MCP servers are built in TypeScript (Node/MCP SDK) only.
-version: 3.0.0
+version: 3.1.0
 license: Complete terms in LICENSE-Apache-2.0-Anthropic.md
 ---
 
@@ -95,6 +95,8 @@ If the server will provision, inspect, or mutate cloud resources (Terraform stat
 #### 2.1 Set Up Project Structure
 
 See the [⚡ TypeScript Guide](./reference/node_mcp_server.md) for project structure, `package.json`, and `tsconfig.json`.
+
+**kieksme release identity:** A repository named `kieksme/mcp-<service>` publishes its npm and GitHub Packages package as `@kieksme/<service>-mcp` and its GHCR image as `ghcr.io/kieksme/<service>-mcp`. For example, `kieksme/mcp-balena` publishes `@kieksme/balena-mcp` and `ghcr.io/kieksme/balena-mcp`; keep repository URLs pointed at `mcp-balena`. Use `GPL-3.0-or-later` in package and extension metadata, include the full GPLv3 text in the server repository's `LICENSE`, and link it from the README. Preserve separate licenses and notices for third-party material.
 
 **Set up linting alongside the project (mandatory):**
 Copy [`templates/eslint.config.template.mjs`](./templates/eslint.config.template.mjs) to the
@@ -271,6 +273,7 @@ root as `README.md` and fill in every `{{PLACEHOLDER}}`. It already wires up:
 - A CI badge (points at `.github/workflows/ci.yml` — adjust the path if your workflow differs)
 - A quality badge (`mcp-quality: evaluated`) that signals Phase 4's evaluation was run
 - A license badge
+- The `@kieksme/<service>-mcp` package name, `ghcr.io/kieksme/<service>-mcp` image name, and GPL-3.0-or-later license for kieksme server projects
 - The mandatory sections: Tools, Configuration, Testing, and "Where to find this server"
 - One-click **Add to Cursor** / **Add to VS Code** install buttons, plus config snippets for
   **Claude** (Desktop and Code) and **OpenCode** — for both the stdio and Streamable HTTP variant
