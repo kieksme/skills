@@ -29,6 +29,25 @@ kieksme-terraform-module-generation
 kieksme-terraform-provider-development
 ```
 
+### Available MCP servers
+
+The marketplace currently provides these MCP servers:
+
+| MCP server | Plugin name | Description |
+| --- | --- | --- |
+| Contabo MCP | `kieksme-contabo-mcp` | Manage Contabo VPS/VDS instances, images, snapshots, networking, DNS, object storage, secrets, domains, and tags. |
+| Listmonk MCP | `kieksme-listmonk-mcp` | Manage Listmonk newsletters, subscribers, campaigns, templates, and settings. |
+| Hashnode MCP | `kieksme-hashnode-mcp` | Create drafts, publish posts, and manage Hashnode blogs through the Hashnode GraphQL API. |
+| Swetrix Statistics MCP | `kieksme-swetrix-statistics-mcp` | Run read-only Swetrix analytics queries for traffic, performance, errors, funnels, and goals. |
+| Swetrix Events MCP | `kieksme-swetrix-events-mcp` | Track Swetrix pageviews, custom events, heartbeats, errors, and revenue. |
+| Swetrix Admin MCP | `kieksme-swetrix-admin-mcp` | Manage Swetrix projects, funnels, annotations, views, and organisations. |
+
+Install an MCP server in Claude Code with:
+
+```bash
+claude plugin install <plugin-name>@kieksme-skills
+```
+
 MCPs are installed through the same marketplace. For example:
 
 ```bash
